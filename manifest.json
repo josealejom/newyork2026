@@ -1,6 +1,6 @@
 {
-  "name": "Itinerario NYC - Viaje Familiar",
-  "short_name": "Itinerario NYC",
+  "name": "New York 2026 - Viaje Familiar",
+  "short_name": "New York 2026",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
