@@ -16,25 +16,14 @@
 <link rel="manifest" href="manifest.json">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg: #FAF9F6;
-    --card: #FFFFFF;
-    --card-2: #F1EFE9;
-    --line: #E3E0D8;
-    --ink: #1C1F26;
-    --muted: #6B7280;
-    --accent: #E8600F;
-    --hotel: #6B4A9E; --hotel-bg:#F4F0FA; --hotel-line:#DCCDF0;
-    --transfer: #2E7D8C; --transfer-bg:#EEF6F7; --transfer-line:#C7E2E6;
-    --place: #E8600F; --place-bg:#FDF1E9; --place-line:#F5D3B5;
-    --meal: #C0344D; --meal-bg:#FBEEF0; --meal-line:#EFC2CB;
-    --tabbar-h: 62px;
-    --safe-top: env(safe-area-inset-top, 0px);
-    --safe-bottom: env(safe-area-inset-bottom, 0px);
+    --bg:#FAF8F5; --card:#FFFFFF; --card-2:#FBFAF8; --line:#E7E3DC; --ink:#181A1F; --muted:#767D8A;
+    --hotel:#6B4A9E; --transfer:#1F7A88; --place:#D9550A; --meal:#B23350;
+    --tabbar-h:62px; --safe-top:env(safe-area-inset-top,0px); --safe-bottom:env(safe-area-inset-bottom,0px);
   }
-  *{ box-sizing:border-box; -webkit-tap-highlight-color: transparent; }
+  *{ box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
   html,body{ margin:0; padding:0; height:100%; overscroll-behavior:none; }
   body{ background:var(--bg); color:var(--ink); font-family:'IBM Plex Sans',sans-serif; min-height:100vh; min-height:100dvh; }
 
@@ -42,14 +31,11 @@
   .sidenav{ display:none; }
   .main{ flex:1; min-width:0; display:flex; flex-direction:column; height:100vh; height:100dvh; }
 
-  .topbar{
-    flex:none; padding:calc(var(--safe-top) + 10px) 18px 12px; background:var(--bg);
-    border-bottom:1px solid var(--line); display:flex; align-items:center; justify-content:space-between;
-  }
+  .topbar{ flex:none; padding:calc(var(--safe-top) + 10px) 18px 12px; background:var(--bg); border-bottom:1px solid var(--line); display:flex; align-items:center; justify-content:space-between; }
   .topbar .brand{ display:flex; align-items:center; gap:9px; }
   .topbar .brand-icon{ width:28px; height:28px; border-radius:8px; overflow:hidden; display:flex; align-items:center; justify-content:center; flex:none; }
   .topbar .brand-icon img{ width:100%; height:100%; object-fit:cover; display:block; }
-  .topbar h1{ font-family:'Archivo Black',sans-serif; font-weight:400; font-size:16px; margin:0; letter-spacing:.01em; }
+  .topbar h1{ font-family:'Big Shoulders Display',sans-serif; font-weight:800; font-size:19px; margin:0; letter-spacing:.01em; }
   .topbar .datebadge{ font-family:'IBM Plex Mono',monospace; font-size:10px; color:var(--muted); border:1px solid var(--line); border-radius:999px; padding:4px 9px; }
 
   .content{ flex:1; overflow-y:auto; -webkit-overflow-scrolling:touch; padding:16px 16px calc(var(--tabbar-h) + var(--safe-bottom) + 24px); }
@@ -58,131 +44,104 @@
   .day-view.active{ display:block; animation:fadein .2s ease; }
   @keyframes fadein{ from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:translateY(0);} }
 
-  .day-hero{ background:var(--card); border:1px solid var(--line); border-radius:16px; padding:16px 16px; margin-bottom:16px; }
-  .day-hero .k{ font-family:'IBM Plex Mono',monospace; font-size:10px; text-transform:uppercase; letter-spacing:.1em; color:var(--muted); }
-  .day-hero h2{ font-family:'Archivo Black',sans-serif; font-weight:400; font-size:19px; margin:4px 0 0; }
+  .kicker{ font-family:'IBM Plex Mono',monospace; font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); display:flex; align-items:center; gap:7px; }
+  .kicker::before{ content:''; width:7px; height:7px; border-radius:50%; background:var(--place); }
+  .day-title{ font-family:'Big Shoulders Display',sans-serif; font-weight:800; font-size:30px; line-height:.95; margin:5px 0 18px; letter-spacing:-.01em; text-transform:uppercase; }
 
-  .legend{ display:flex; gap:8px; flex-wrap:wrap; margin-bottom:16px; }
-  .legend-item{ display:flex; align-items:center; gap:5px; font-family:'IBM Plex Mono',monospace; font-size:10px; color:var(--muted); background:var(--card); border:1px solid var(--line); border-radius:999px; padding:5px 9px; }
-  .legend-dot{ width:8px; height:8px; border-radius:50%; flex:none; }
+  .filters{ display:flex; gap:8px; flex-wrap:wrap; margin-bottom:22px; }
+  .chip{ display:flex; align-items:center; gap:7px; font-family:'IBM Plex Mono',monospace; font-size:11.5px; font-weight:600; padding:8px 13px 8px 8px; border-radius:999px; border:1.5px solid var(--c); background:#fff; color:var(--c); cursor:pointer; }
+  .chip .roundel{ width:18px; height:18px; border-radius:50%; background:var(--c); color:#fff; display:flex; align-items:center; justify-content:center; font-family:'Big Shoulders Display',sans-serif; font-weight:800; font-size:11px; flex:none; }
+  .chip.active{ background:var(--c); color:#fff; }
+  .chip.active .roundel{ background:#fff; color:var(--c); }
+  .chip:not(.active){ opacity:.5; }
 
-  .timeline{ position:relative; padding-left:24px; }
-  .timeline::before{ content:''; position:absolute; left:7px; top:2px; bottom:2px; width:2px; background:var(--line); }
+  .timeline{ position:relative; padding-left:26px; }
+  .timeline::before{ content:''; position:absolute; left:9px; top:6px; bottom:6px; width:3px; background:var(--line); border-radius:3px; }
+  .stop{ position:relative; margin-bottom:11px; }
+  .stop.hidden{ display:none; }
+  .stop-dot{ position:absolute; left:-26px; top:19px; width:20px; height:20px; border-radius:50%; background:var(--c); border:3px solid var(--bg); box-shadow:0 0 0 1.5px var(--c); }
 
-  .item{ position:relative; margin-bottom:9px; }
-  .item-dot{ position:absolute; left:-24px; top:15px; width:15px; height:15px; border-radius:50%; border:3px solid var(--bg); }
-  .row{ display:flex; align-items:center; gap:11px; padding:12px 13px; border-radius:13px; cursor:pointer; border:1px solid var(--line); background:var(--card); user-select:none; }
-  .row .icon{ width:34px; height:34px; border-radius:9px; flex:none; display:flex; align-items:center; justify-content:center; font-size:16px; color:#fff; }
-  .row .logo{ border-radius:12px; flex:none; background:#fff; border:1px solid var(--line); display:flex; align-items:center; justify-content:center; overflow:hidden; box-shadow:0 1px 2px rgba(0,0,0,.04); }
-  .row .logo img{ width:100%; height:100%; object-fit:contain; padding:8px; }
-  .row .logo .fallback{ font-size:22px; }
-  .row .txt{ flex:1; min-width:0; }
-  .row .title{ font-weight:700; font-size:15.5px; }
-  .row .meta{ font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--muted); margin-top:2px; }
-  .row .chevron{ flex:none; width:16px; height:16px; transition:transform .2s ease; color:var(--muted); }
-  .item.open > .row .chevron{ transform:rotate(180deg); }
+  .card{ background:var(--card); border:1px solid var(--line); border-left:5px solid var(--c); border-radius:10px; box-shadow:0 1px 3px rgba(20,20,30,.04); overflow:hidden; }
+  .card-head{ display:flex; align-items:center; gap:12px; padding:13px 14px; cursor:pointer; }
+  .card-head .logo{ width:46px; height:46px; border-radius:11px; flex:none; background:#fff; border:1px solid var(--line); display:flex; align-items:center; justify-content:center; overflow:hidden; }
+  .card-head .logo img{ width:100%; height:100%; object-fit:contain; padding:8px; }
+  .card-head .logo .fb{ font-size:19px; width:100%; height:100%; align-items:center; justify-content:center; }
+  .card-head .txt{ flex:1; min-width:0; }
+  .card-head .cat-label{ font-family:'IBM Plex Mono',monospace; font-size:9px; text-transform:uppercase; letter-spacing:.1em; color:var(--c); font-weight:700; }
+  .card-head .title{ font-weight:700; font-size:15px; line-height:1.25; margin-top:1px; }
+  .card-head .meta{ font-family:'IBM Plex Mono',monospace; font-size:10.5px; color:var(--muted); margin-top:3px; }
+  .card-head .side{ flex:none; display:flex; flex-direction:column; align-items:flex-end; gap:6px; }
+  .duration{ font-family:'IBM Plex Mono',monospace; font-size:9.5px; font-weight:700; padding:2px 8px; border-radius:999px; border:1.3px solid var(--c); color:var(--c); white-space:nowrap; }
+  .chev{ width:15px; height:15px; color:var(--muted); transition:transform .2s; }
+  .card.open .chev{ transform:rotate(180deg); }
 
-  .item.hotel .row{ background:var(--hotel-bg); border-color:var(--hotel-line); } .item.hotel .icon{ background:var(--hotel); } .item.hotel .item-dot{ background:var(--hotel); }
-  .item.transfer .row{ background:var(--transfer-bg); border-color:var(--transfer-line); } .item.transfer .icon{ background:var(--transfer); } .item.transfer .item-dot{ background:var(--transfer); }
-  .item.place .row{ background:var(--place-bg); border-color:var(--place-line); } .item.place .icon{ background:var(--place); } .item.place .item-dot{ background:var(--place); }
-  .item.meal .row{ background:var(--meal-bg); border-color:var(--meal-line); } .item.meal .icon{ background:var(--meal); } .item.meal .item-dot{ background:var(--meal); }
-
-  .panel{ max-height:0; overflow:hidden; transition:max-height .3s ease; }
-  .item.open > .panel{ max-height:5000px; }
-  .panel-inner{ padding:12px 15px 15px; margin:2px 3px 0; border:1px solid var(--line); border-top:none; border-radius:0 0 11px 11px; background:var(--card); font-size:12.5px; color:#4B5160; line-height:1.55; }
-  .item.hotel .panel-inner{ border-color:var(--hotel-line); }
-  .item.transfer .panel-inner{ border-color:var(--transfer-line); }
-  .item.place .panel-inner{ border-color:var(--place-line); }
-  .item.meal .panel-inner{ border-color:var(--meal-line); }
-
-  .bullets{ margin:0; padding-left:17px; }
-  .bullets li{ margin-bottom:3px; }
-
-  .place-links{ display:flex; gap:8px; margin-top:10px; flex-wrap:wrap; }
-  .place-links a{ font-family:'IBM Plex Mono',monospace; font-size:10.5px; text-decoration:none; border:1px solid var(--place); color:var(--place); border-radius:8px; padding:5px 9px; }
-  .transfer-links a{ font-family:'IBM Plex Mono',monospace; font-size:10.5px; text-decoration:none; border:1px solid var(--transfer); color:var(--transfer); border-radius:8px; padding:5px 9px; display:inline-block; margin-top:8px; }
+  .card-body{ max-height:0; overflow:hidden; transition:max-height .3s ease; }
+  .card.open .card-body{ max-height:5000px; }
+  .card-body-inner{ padding:2px 16px 16px 72px; font-size:12.5px; color:#454B57; line-height:1.55; }
+  .card-body-inner ul{ margin:0 0 10px; padding-left:16px; }
+  .card-body-inner li{ margin-bottom:4px; }
+  .actions{ display:flex; gap:7px; flex-wrap:wrap; }
+  .actions a{ font-family:'IBM Plex Mono',monospace; font-size:10.5px; font-weight:600; text-decoration:none; border:1.3px solid var(--c); color:var(--c); border-radius:8px; padding:5px 10px; }
 
   .meal-note{ font-size:11.5px; color:var(--muted); margin-bottom:9px; }
 
-  .rest{ border:1px solid var(--meal-line); border-radius:10px; margin-bottom:6px; overflow:hidden; background:var(--card-2); }
-  .rest.cafe{ background:#FBF3E7; border-color:#EED9A0; }
-  .rest-row{ display:flex; align-items:center; gap:8px; padding:8px 9px; cursor:pointer; user-select:none; }
-  .rest-row .em{ font-size:15px; width:20px; text-align:center; flex:none; }
-  .rest-row .logo{ border-radius:11px; flex:none; background:#fff; border:1px solid var(--line); display:flex; align-items:center; justify-content:center; overflow:hidden; }
-  .rest-row .logo img{ width:100%; height:100%; object-fit:contain; padding:7px; }
-  .rest-row .logo .fallback{ font-size:19px; }
-  .rest-row .nmwrap{ flex:1; min-width:0; }
-  .rest-row .domain{ font-family:'IBM Plex Mono',monospace; font-size:10.5px; color:var(--muted); margin-top:1px; }
-  .rest-row .nm{ flex:1; font-weight:700; font-size:14.5px; }
-  .rest-row .badge{ font-family:'IBM Plex Mono',monospace; font-size:12px; font-weight:600; color:var(--muted); flex:none; }
-  .rest-row .chev{ width:13px; height:13px; flex:none; color:var(--muted); transition:transform .2s ease; }
-  .rest.open .rest-row .chev{ transform:rotate(180deg); }
-  .rest-panel{ max-height:0; overflow:hidden; transition:max-height .25s ease; }
-  .rest.open .rest-panel{ max-height:700px; }
-  .rest-panel-inner{ padding:0 11px 11px; font-size:11.5px; color:#4B5160; line-height:1.5; border-top:1px solid var(--meal-line); }
-  .rest.cafe .rest-panel-inner{ border-color:#EED9A0; }
-  .rest-panel-inner ul{ margin:7px 0; padding-left:15px; }
-  .rest-panel-inner li{ margin-bottom:2px; }
-  .ratings{ display:flex; gap:7px; flex-wrap:wrap; margin:7px 0; font-family:'IBM Plex Mono',monospace; font-size:10px; }
-  .ratings span{ background:#fff; border:1px solid var(--line); border-radius:6px; padding:2px 7px; }
-  .rest-links{ display:flex; gap:7px; margin-top:7px; }
-  .rest-links a{ font-family:'IBM Plex Mono',monospace; font-size:10px; text-decoration:none; border:1px solid var(--meal); color:var(--meal); border-radius:7px; padding:4px 8px; }
-  .rest.cafe .rest-links a{ border-color:#B87A00; color:#B87A00; }
+  .rest{ background:var(--card-2); border:1px solid var(--line); border-radius:9px; margin-top:7px; overflow:hidden; }
+  .rest-head{ display:flex; align-items:center; gap:10px; padding:9px 10px; cursor:pointer; }
+  .rest-head .logo{ width:36px; height:36px; border-radius:9px; background:#fff; border:1px solid var(--line); display:flex; align-items:center; justify-content:center; flex:none; overflow:hidden; }
+  .rest-head .logo img{ width:100%; height:100%; object-fit:contain; padding:6px; }
+  .rest-head .logo .fb{ font-size:14px; width:100%; height:100%; align-items:center; justify-content:center; }
+  .rest-head .nm{ flex:1; font-weight:700; font-size:12.5px; }
+  .rest-head .domain{ font-family:'IBM Plex Mono',monospace; font-size:9.5px; color:var(--muted); }
+  .rest-head .price{ font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--muted); font-weight:600; flex:none; }
+  .rest-head .rchev{ width:13px; height:13px; color:var(--muted); flex:none; transition:transform .2s; }
+  .rest.open .rchev{ transform:rotate(180deg); }
+  .rest-body{ max-height:0; overflow:hidden; transition:max-height .25s ease; }
+  .rest.open .rest-body{ max-height:600px; border-top:1px solid var(--line); }
+  .rest-body-inner{ padding:9px 11px 11px; font-size:11.5px; color:#454B57; line-height:1.5; }
+  .rest-body-inner ul{ margin:0 0 8px; padding-left:15px; }
+  .ratings{ display:flex; gap:6px; flex-wrap:wrap; margin-bottom:8px; font-family:'IBM Plex Mono',monospace; font-size:9px; }
+  .ratings span{ background:#fff; border:1px solid var(--line); border-radius:5px; padding:2px 6px; }
+  .flag{ display:inline-block; background:#FFF3CD; color:#8A6300; font-family:'IBM Plex Mono',monospace; font-size:9px; padding:1px 6px; border-radius:5px; margin-left:4px; }
 
-  .flag{ display:inline-block; background:#FFF3CD; color:#8A6300; font-family:'IBM Plex Mono',monospace; font-size:9.5px; padding:1px 6px; border-radius:5px; margin-left:4px; }
-
-  .tabbar{
-    position:fixed; left:0; right:0; bottom:0; height:calc(var(--tabbar-h) + var(--safe-bottom));
-    padding-bottom:var(--safe-bottom); background:rgba(255,255,255,.92); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px);
-    border-top:1px solid var(--line); display:flex; z-index:20;
-  }
+  .tabbar{ position:fixed; left:0; right:0; bottom:0; height:calc(var(--tabbar-h) + var(--safe-bottom)); padding-bottom:var(--safe-bottom); background:rgba(255,255,255,.92); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px); border-top:1px solid var(--line); display:flex; z-index:20; }
   .tab{ flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:3px; border:none; background:none; cursor:pointer; color:var(--muted); padding:6px 2px; }
-  .tab .tab-dot{ width:20px; height:20px; border-radius:7px; display:flex; align-items:center; justify-content:center; font-family:'IBM Plex Mono',monospace; font-size:10px; font-weight:700; background:var(--card-2); color:var(--muted); }
+  .tab .tab-dot{ width:22px; height:22px; border-radius:7px; display:flex; align-items:center; justify-content:center; font-family:'Big Shoulders Display',sans-serif; font-size:12px; font-weight:800; background:var(--card-2); color:var(--muted); }
   .tab.active .tab-dot{ background:var(--ink); color:#fff; }
-  .tab .tab-label{ font-size:9.5px; font-weight:600; }
+  .tab .tab-label{ font-size:9px; font-weight:600; font-family:'IBM Plex Mono',monospace; }
   .tab.active .tab-label{ color:var(--ink); }
 
   @media (max-width:359px){
-    .topbar{ padding:calc(var(--safe-top) + 8px) 12px 10px; }
-    .topbar h1{ font-size:14px; }
     .content{ padding:12px 12px calc(var(--tabbar-h) + var(--safe-bottom) + 20px); }
-    .row{ padding:10px 11px; gap:9px; }
-    .row .icon{ width:30px; height:30px; }
-    .row .title{ font-size:13px; }
+    .card-head{ padding:11px 12px; gap:10px; }
+    .card-head .logo{ width:40px; height:40px; }
+    .card-head .title{ font-size:14px; }
   }
 
   @media (min-width:768px){
     .tabbar{ display:none; }
     .app{ max-width:1200px; margin:0 auto; }
-    .sidenav{
-      display:flex; flex-direction:column; width:248px; flex:none; border-right:1px solid var(--line);
-      padding:22px 16px; height:100vh; height:100dvh; position:sticky; top:0; overflow-y:auto;
-    }
+    .sidenav{ display:flex; flex-direction:column; width:248px; flex:none; border-right:1px solid var(--line); padding:22px 16px; height:100vh; height:100dvh; position:sticky; top:0; overflow-y:auto; }
     .sidenav .brand{ display:flex; align-items:center; gap:10px; padding:0 6px 20px; }
     .sidenav .brand-icon{ width:32px; height:32px; border-radius:9px; overflow:hidden; display:flex; align-items:center; justify-content:center; flex:none; }
     .sidenav .brand-icon img{ width:100%; height:100%; object-fit:cover; display:block; }
-    .sidenav h1{ font-family:'Archivo Black',sans-serif; font-weight:400; font-size:16px; margin:0; }
+    .sidenav h1{ font-family:'Big Shoulders Display',sans-serif; font-weight:800; font-size:19px; margin:0; }
     .sidenav .brand-sub{ font-family:'IBM Plex Mono',monospace; font-size:10px; color:var(--muted); margin-top:1px; }
-    .side-tab{
-      display:flex; align-items:center; gap:11px; padding:11px 12px; border-radius:12px; border:none; background:none;
-      cursor:pointer; text-align:left; width:100%; color:var(--ink); margin-bottom:4px;
-    }
+    .side-tab{ display:flex; align-items:center; gap:11px; padding:11px 12px; border-radius:12px; border:none; background:none; cursor:pointer; text-align:left; width:100%; color:var(--ink); margin-bottom:4px; }
     .side-tab:hover{ background:var(--card-2); }
     .side-tab.active{ background:var(--card-2); }
-    .side-tab .side-dot{ width:30px; height:30px; border-radius:9px; flex:none; display:flex; align-items:center; justify-content:center; font-family:'IBM Plex Mono',monospace; font-size:11px; font-weight:700; background:var(--card-2); color:var(--muted); }
+    .side-tab .side-dot{ width:30px; height:30px; border-radius:9px; flex:none; display:flex; align-items:center; justify-content:center; font-family:'Big Shoulders Display',sans-serif; font-size:13px; font-weight:800; background:var(--card-2); color:var(--muted); }
     .side-tab.active .side-dot{ background:var(--ink); color:#fff; }
     .side-tab .side-txt{ min-width:0; }
-    .side-tab .side-label{ font-size:12.5px; font-weight:700; }
+    .side-tab .side-label{ font-size:12px; font-weight:700; font-family:'IBM Plex Mono',monospace; }
     .side-tab .side-title{ font-size:10.5px; color:var(--muted); margin-top:1px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
     .main{ height:100vh; height:100dvh; }
     .topbar{ display:none; }
     .content{ padding:36px 40px 48px; max-width:760px; margin:0 auto; width:100%; }
-    .day-hero{ padding:22px 24px; border-radius:18px; }
-    .day-hero h2{ font-size:24px; }
-    .legend{ margin-bottom:20px; }
-    .row{ padding:14px 16px; }
-    .row .icon{ width:38px; height:38px; font-size:17px; }
-    .row .title{ font-size:14px; }
+    .day-title{ font-size:38px; }
+    .card-head{ padding:16px 17px; gap:14px; }
+    .card-head .logo{ width:52px; height:52px; }
+    .card-head .title{ font-size:16.5px; }
+    .card-body-inner{ padding:2px 18px 18px 79px; font-size:13px; }
   }
   @media (min-width:1024px){
     .sidenav{ width:272px; padding:26px 18px; }
@@ -218,60 +177,54 @@
 <script>
 function gmapsSearch(q){ return "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(q); }
 function gmapsDirections(from,to,mode){ return "https://www.google.com/maps/dir/?api=1&origin="+encodeURIComponent(from)+"&destination="+encodeURIComponent(to)+"&travelmode="+mode; }
-function faviconUrl(domain){ return "https://www.google.com/s2/favicons?domain="+domain+"&sz=128"; }
 function domainFromUrl(url){ try{ return new URL(url).hostname.replace(/^www\./,''); }catch(e){ return ''; } }
-function logoHTML(domain, fallbackEmoji, size){
-  return "<div class='logo' style='width:"+size+"px;height:"+size+"px;'>"
-    + "<img src='"+faviconUrl(domain)+"' alt='' onerror=\"this.style.display='none';this.nextElementSibling.style.display='flex';\">"
-    + "<div class='fallback' style='display:none;'>"+fallbackEmoji+"</div>"
+
+function logoWithFavicon(domain, fallbackEmoji){
+  var clearbit = "https://logo.clearbit.com/" + domain;
+  var favicon = "https://www.google.com/s2/favicons?domain=" + domain + "&sz=128";
+  return "<div class='logo'>"
+    + "<img src='"+clearbit+"' onerror=\"this.style.display='none';this.nextElementSibling.style.display='block';\">"
+    + "<img src='"+favicon+"' style='display:none' onerror=\"this.style.display='none';this.nextElementSibling.style.display='flex';\">"
+    + "<div class='fb' style='display:none'>"+fallbackEmoji+"</div>"
     + "</div>";
 }
+function logoEmoji(emoji){
+  return "<div class='logo'><div class='fb' style='display:flex'>"+emoji+"</div></div>";
+}
 
-const HOTEL_Q = "SpringHill Suites New York Queens 38-39 9th St Long Island City";
-const STATION_Q = "21 St-Queensbridge Subway Station Long Island City";
-const LGA_Q = "LaGuardia Airport New York";
+const CAT_LABEL = { hotel:'HOTEL', transfer:'TRASLADO', place:'LUGAR', meal:'COMIDA' };
 
 function restaurantHTML(r){
   var domain = domainFromUrl(r.menuUrl);
-  return "<div class='rest "+(r.cafe?'cafe':'')+"'>"
-    + "<div class='rest-row' onclick=\"this.parentElement.classList.toggle('open')\">"
-    + logoHTML(domain, r.emoji, 44)
-    + "<div class='nmwrap'><div class='nm'>"+r.name+"</div><div class='domain'>"+domain+"</div></div><div class='badge'>"+r.price+"</div>"
-    + "<svg class='chev' viewBox='0 0 24 24' fill='none'><path d='M6 9l6 6 6-6' stroke='currentColor' stroke-width='2' stroke-linecap='round'/></svg></div>"
-    + "<div class='rest-panel'><div class='rest-panel-inner'>"
+  return "<div class='rest'>"
+    + "<div class='rest-head' onclick=\"this.parentElement.classList.toggle('open')\">"
+    + logoWithFavicon(domain, r.emoji)
+    + "<div style='flex:1;min-width:0'><div class='nm'>"+r.name+"</div><div class='domain'>"+domain+"</div></div>"
+    + "<div class='price'>"+r.price+"</div>"
+    + "<svg class='rchev' viewBox='0 0 24 24' fill='none'><path d='M6 9l6 6 6-6' stroke='currentColor' stroke-width='2' stroke-linecap='round'/></svg>"
+    + "</div>"
+    + "<div class='rest-body'><div class='rest-body-inner'>"
     + "<ul>"+r.bullets.map(function(b){return "<li>"+b+"</li>";}).join('')+"</ul>"
     + "<div class='ratings'>"
     + (r.google?"<span>Google "+r.google+"</span>":"")
     + (r.yelp?"<span>Yelp "+r.yelp+"</span>":"")
     + (r.tripadvisor?"<span>TripAdvisor "+r.tripadvisor+"</span>":"")
-    + "</div><div class='rest-links'>"
+    + "</div><div class='actions'>"
     + "<a href='"+r.menuUrl+"' target='_blank' rel='noopener'>Ver menu</a>"
     + "<a href='"+r.mapsUrl+"' target='_blank' rel='noopener'>Ver ubicacion</a>"
     + "</div></div></div></div>";
 }
-function placeHTML(it){
-  var html = "<ul class='bullets'>"+it.bullets.map(function(b){return "<li>"+b+"</li>";}).join('')+"</ul>";
-  html += "<div class='place-links'>";
-  if(it.ticketUrl){ html += "<a href='"+it.ticketUrl+"' target='_blank' rel='noopener'>Comprar tiquetes ("+it.ticketPrice+")</a>"; }
-  html += "<a href='"+gmapsSearch(it.mapQuery)+"' target='_blank' rel='noopener'>Ver ubicacion</a>";
-  html += "</div>";
-  return html;
-}
-function transferHTML(it){
-  var url = gmapsDirections(it.from, it.to, it.mode);
-  return it.note + "<div class='transfer-links'><a href='"+url+"' target='_blank' rel='noopener'>Como llegar en Google Maps</a></div>";
-}
 
 const days = [
 
-{ id:'d26', label:'Oct 26', title:'Llegada a Nueva York', items:[
-  { cat:'transfer', icon:'&#9992;', title:'Llegada a LGA', time:'5:23 PM',
-    note:'Vuelo domestico desde MIA (AA552), sin tramites de inmigracion adicionales.', from:LGA_Q, to:LGA_Q, mode:'driving' },
-  { cat:'transfer', icon:'&#128661;', title:'Uber al hotel', time:'&asymp; 15-20 min',
-    note:'Aprox 9 km sin trafico.', from:LGA_Q, to:HOTEL_Q, mode:'driving' },
+{ id:'d26', label:'26', dateLabel:'Oct 26', title:'Llegada a Nueva York', items:[
+  { cat:'transfer', icon:'&#9992;', title:'Llegada a LGA', time:'5:23 PM', sub:'Vuelo domestico desde MIA (AA552)',
+    note:'Sin tramites de inmigracion adicionales, se sale directo hacia la zona de transporte terrestre.', from:'LaGuardia Airport New York', to:'LaGuardia Airport New York', mode:'driving' },
+  { cat:'transfer', icon:'&#128661;', title:'Uber al hotel', time:'5:45 PM', sub:'Aprox 9 km sin trafico', dur:'~15-20 min',
+    note:'Uber directo desde el aeropuerto hasta el hotel en Long Island City.', from:'LaGuardia Airport New York', to:'SpringHill Suites New York Queens 38-39 9th St Long Island City', mode:'driving' },
   { cat:'hotel', icon:'&#127971;', title:'Check-in SpringHill Suites', time:'6:00 PM',
     text:'Cuatro noches en la zona de Ravenswood/Queensbridge, Long Island City. Desayuno caliente incluido y shuttle gratis del hotel hasta las 10:45pm.' },
-  { cat:'meal', icon:'&#127869;', title:'Cena - zona del hotel (LIC)', time:'8:00 PM', isMeal:true,
+  { cat:'meal', icon:'&#127869;', title:'Cena - zona del hotel (LIC)', time:'8:00 PM', dur:'~1-1.5h', isMeal:true,
     note:'A un Uber corto (8-12 min) del hotel; mejor no aventurarse muy lejos la primera noche. De noche conviene pedir Uber directo, no caminar.',
     options:[
       { emoji:'\ud83c\uddfa\ud83c\uddf8', name:'Westville LIC', price:'$25-35', bullets:['La mas segura y versatil','Comida americana fresca'],
@@ -284,21 +237,21 @@ const days = [
         google:'4.5', yelp:'4.6', tripadvisor:'Muy bien valorado', menuUrl:'https://casaenriquelic.com/', mapsUrl:'https://www.google.com/maps/search/?api=1&query=Casa+Enrique+5-48+49th+Ave+Long+Island+City' },
       { emoji:'\ud83c\uddf9\ud83c\udded', name:'Saang Thai', price:'$20-30', bullets:['Opcion tailandesa','Ambiente lindo y acogedor'],
         google:'4.7', yelp:'18 resenas', tripadvisor:'No listado', menuUrl:'https://www.saangnyc.com/', mapsUrl:'https://www.google.com/maps/search/?api=1&query=Saang+Thai+47-45+Vernon+Blvd+Long+Island+City' },
-      { emoji:'&#9749;', name:'No Stress Coffee', price:'$5-12', cafe:true, bullets:['Cafe de barrio, parada rapida','Sin sitio web propio'],
+      { emoji:'&#9749;', name:'No Stress Coffee', price:'$5-12', bullets:['Cafe de barrio, parada rapida','Sin sitio web propio'],
         google:'4.7', yelp:'125 resenas', tripadvisor:'No listado', menuUrl:'https://joe.coffee/locations/ny/long-island-city/no-stress-coffee-long-island-city', mapsUrl:'https://www.google.com/maps/search/?api=1&query=No+Stress+Coffee+42-77+Hunter+St+Long+Island+City' },
     ]},
 ]},
 
-{ id:'d27', label:'Oct 27', title:'Midtown: Rockefeller, Central Park, Times Square', items:[
+{ id:'d27', label:'27', dateLabel:'Oct 27', title:'Midtown', items:[
   { cat:'hotel', icon:'&#127869;', title:'Desayuno en el hotel', time:'8:30 AM', text:'Incluido en la reserva.' },
-  { cat:'transfer', icon:'&#128694;', title:'Caminata a la estacion', time:'10-15 min',
-    note:'21 St-Queensbridge (F/M), ascensor disponible, o shuttle del hotel.', from:HOTEL_Q, to:STATION_Q, mode:'walking' },
-  { cat:'transfer', icon:'&#128647;', title:'Tren F o M', time:'&asymp; 15 min, directo',
-    note:'21 St-Queensbridge a 47-50 Sts-Rockefeller Ctr, sin trasbordos.', from:STATION_Q, to:'Rockefeller Center New York', mode:'transit' },
-  { cat:'place', icon:'&#127969;', title:'Top of the Rock', domain:'rockefellercenter.com', time:'10:15 AM',
+  { cat:'transfer', icon:'&#128694;', title:'Caminata a la estacion', time:'9:15 AM', sub:'21 St-Queensbridge', dur:'~12 min',
+    note:'21 St-Queensbridge (F/M), ascensor disponible, o shuttle del hotel.', from:'SpringHill Suites New York Queens 38-39 9th St Long Island City', to:'21 St-Queensbridge Subway Station Long Island City', mode:'walking' },
+  { cat:'transfer', icon:'&#128647;', title:'Tren F o M', time:'9:30 AM', sub:'Directo, sin trasbordos', dur:'~15 min',
+    note:'21 St-Queensbridge a 47-50 Sts-Rockefeller Ctr, sin trasbordos.', from:'21 St-Queensbridge Subway Station Long Island City', to:'Rockefeller Center New York', mode:'transit' },
+  { cat:'place', icon:'&#127969;', title:'Top of the Rock', time:'10:15 AM', dur:'~1-1.5h', domain:'rockefellercenter.com',
     bullets:['Uno de los miradores favoritos de la ciudad','La ventaja frente al Empire State: desde aqui si se ve el Empire State en las fotos del horizonte','Conviene reservar la hora de entrada con anticipacion'],
     ticketUrl:'https://www.rockefellercenter.com/buy-tickets', ticketPrice:'$42-71', mapQuery:'Top of the Rock Rockefeller Center New York' },
-  { cat:'meal', icon:'&#127869;', title:'Almuerzo - zona Rockefeller Center', time:'12:30 PM', isMeal:true,
+  { cat:'meal', icon:'&#127869;', title:'Almuerzo - zona Rockefeller Center', time:'12:30 PM', dur:'~1-1.5h', isMeal:true,
     note:'Todas las opciones quedan a 5-10 min caminando de Top of the Rock.',
     options:[
       { emoji:'\ud83c\uddfa\ud83c\uddf8', name:'The Elgin', price:'$30-40', bullets:['Ambiente relajado tipo pub americano','Ideal para un almuerzo sin complicaciones'],
@@ -311,25 +264,25 @@ const days = [
         google:'4.7', yelp:'224 resenas', tripadvisor:'Presente', menuUrl:'https://www.toasttab.com/local/amor-loco-nyc', mapsUrl:'https://www.google.com/maps/search/?api=1&query=Amor+Loco+134+W+46th+St+New+York' },
       { emoji:'\ud83c\udde8\ud83c\uddf3', name:"The Best Sichuan<span class='flag'>verificar direccion</span>", price:'$25-40', bullets:['Comida Sichuan autentica (dry pot, pescado hervido en agua)','El local ahora se llama Mala Kitchen, confirmar antes de ir'],
         google:'-', yelp:'79 resenas (Mala Kitchen)', tripadvisor:'No claro', menuUrl:'https://www.grubhub.com/restaurant/the-best-sichuan-7-e-47th-st-new-york', mapsUrl:'https://www.google.com/maps/search/?api=1&query=Mala+Kitchen+7+E+47th+St+New+York' },
-      { emoji:'&#9749;', name:'Blue Bottle Coffee', price:'$7-16', cafe:true, bullets:['Cafe especializado, parada rapida','En el sotano de Rockefeller Plaza'],
+      { emoji:'&#9749;', name:'Blue Bottle Coffee', price:'$7-16', bullets:['Cafe especializado, parada rapida','En el sotano de Rockefeller Plaza'],
         google:'4.4', yelp:'~61 resenas', tripadvisor:"~217 (Travelers Choice)", menuUrl:'https://bluebottlecoffee.com/us/eng/cafes/rockefeller-center', mapsUrl:'https://www.google.com/maps/search/?api=1&query=Blue+Bottle+Coffee+1+Rockefeller+Plaza+New+York' },
     ]},
-  { cat:'transfer', icon:'&#128694;', title:'Caminata a Central Park', time:'&asymp; 20 min',
+  { cat:'transfer', icon:'&#128694;', title:'Caminata a Central Park', time:'1:45 PM', sub:'Desde Rockefeller Center', dur:'~20 min',
     note:'Desde Rockefeller Center hasta Bethesda Terrace.', from:'Rockefeller Center New York', to:'Bethesda Terrace Central Park New York', mode:'walking' },
-  { cat:'place', icon:'&#127795;', title:'Central Park (Bethesda Terrace)', domain:'centralparknyc.org', time:'2:00 PM',
+  { cat:'place', icon:'&#127795;', title:'Central Park (Bethesda Terrace)', time:'2:00 PM', dur:'~1.5-2h', domain:'centralparknyc.org',
     bullets:['El pulmon de Manhattan, disenado hace mas de 150 anos','Bethesda Terrace es el rincon mas bonito y fotografiado, con la fuente del Angel de las Aguas','Terreno plano y bancas por todos lados, buen momento para caminar tranquilos'],
     mapQuery:'Bethesda Terrace Central Park New York' },
-  { cat:'transfer', icon:'&#128694;', title:'Caminata a la Quinta Avenida', time:'&asymp; 15 min',
-    note:'', from:'Bethesda Terrace Central Park New York', to:'St Patricks Cathedral Fifth Avenue New York', mode:'walking' },
-  { cat:'place', icon:'&#128717;', title:'Quinta Avenida', domain:'saintpatrickscathedral.org', time:'4:00 PM',
+  { cat:'transfer', icon:'&#128694;', title:'Caminata a la Quinta Avenida', time:'3:45 PM', sub:'Salida sur del parque', dur:'~15 min',
+    note:'Desde Central Park hasta la Catedral de San Patricio.', from:'Bethesda Terrace Central Park New York', to:'St Patricks Cathedral Fifth Avenue New York', mode:'walking' },
+  { cat:'place', icon:'&#128717;', title:'Quinta Avenida', time:'4:00 PM', dur:'~1-1.5h', domain:'saintpatrickscathedral.org',
     bullets:['La avenida de las vitrinas mas famosas: Tiffany & Co., Saks y mas','La Catedral de San Patricio esta en medio de todo, vale la pena entrar','Es gratis y siempre esta abierta al publico'],
     mapQuery:'St Patricks Cathedral Fifth Avenue New York' },
-  { cat:'transfer', icon:'&#128694;', title:'Caminata a Times Square', time:'&asymp; 10 min',
-    note:'', from:'St Patricks Cathedral Fifth Avenue New York', to:'Times Square New York', mode:'walking' },
-  { cat:'place', icon:'&#10024;', title:'Times Square', domain:'timessquarenyc.org', time:'6:30 PM',
+  { cat:'transfer', icon:'&#128694;', title:'Caminata a Times Square', time:'6:15 PM', sub:'Bajando por la Sexta', dur:'~10 min',
+    note:'Desde la Quinta Avenida hasta Times Square.', from:'St Patricks Cathedral Fifth Avenue New York', to:'Times Square New York', mode:'walking' },
+  { cat:'place', icon:'&#10024;', title:'Times Square', time:'6:30 PM', dur:'~1h', domain:'timessquarenyc.org',
     bullets:['El cruce de calles mas visitado del mundo','De dia es simplemente movido; de noche es cuando cobra vida de verdad','Vale la pena verlo caer la tarde ahi'],
     mapQuery:'Times Square New York' },
-  { cat:'meal', icon:'&#127869;', title:'Cena - zona Times Square', time:'7:00 PM', isMeal:true,
+  { cat:'meal', icon:'&#127869;', title:'Cena - zona Times Square', time:'7:00 PM', dur:'~1.5h', isMeal:true,
     note:'Todas las opciones quedan a 5-10 min caminando de Times Square.',
     options:[
       { emoji:'\ud83c\uddee\ud83c\uddf9', name:'Carmines', price:'$35-45', bullets:['La mas clasica de la zona','Porciones familiares italianas para compartir, ideal para el grupo'],
@@ -342,25 +295,25 @@ const days = [
         google:'4.8', yelp:'109 resenas', tripadvisor:'Listado', menuUrl:'https://www.szechuanmountainhouse.com/menu', mapsUrl:'https://www.google.com/maps/search/?api=1&query=Mountain+House+Times+Square+353+W+46th+St+New+York' },
       { emoji:'\ud83c\uddf9\ud83c\udded', name:'Elephant Ear', price:'$25-40', bullets:["Opcion tailandesa moderna en Hells Kitchen",'Buen punto medio entre casual y elegante'],
         google:'4.8', yelp:'238 resenas', tripadvisor:'Presente (OpenTable 4.1)', menuUrl:'https://www.elephantear.com/', mapsUrl:'https://www.google.com/maps/search/?api=1&query=Elephant+Ear+690+9th+Ave+New+York' },
-      { emoji:'&#9749;', name:'Central Perk Coffee Co.', price:'$10-25', cafe:true, bullets:['Cafeteria tematica de Friends, menu del chef Tom Colicchio','Buena parada de postre despues de la cena'],
+      { emoji:'&#9749;', name:'Central Perk Coffee Co.', price:'$10-25', bullets:['Cafeteria tematica de Friends, menu del chef Tom Colicchio','Buena parada de postre despues de la cena'],
         google:'4.1', yelp:'48 resenas (abrio dic 2025)', tripadvisor:'No establecido aun', menuUrl:'https://www.centralperk.com/pages/new-york-city-store-location', mapsUrl:'https://www.google.com/maps/search/?api=1&query=Central+Perk+Coffee+Company+20+Times+Square+New+York' },
     ]},
-  { cat:'transfer', icon:'&#128647;', title:'Regreso al hotel', time:'&asymp; 15-20 min',
-    note:'Metro F/M directo o Uber.', from:'Times Square New York', to:HOTEL_Q, mode:'transit' },
+  { cat:'transfer', icon:'&#128647;', title:'Regreso al hotel', time:'8:30 PM', sub:'Metro F/M directo o Uber', dur:'~15-20 min',
+    note:'Metro F/M directo o Uber.', from:'Times Square New York', to:'SpringHill Suites New York Queens 38-39 9th St Long Island City', mode:'transit' },
 ]},
 
-{ id:'d28', label:'Oct 28', title:'Downtown: 9/11 Memorial, Wall Street, Staten Island Ferry', items:[
-  { cat:'transfer', icon:'&#128647;', title:'Metro al Downtown', time:'&asymp; 35 min',
-    note:'21 St-Queensbridge a West 4th St (F/M) a Chambers St (A/C), 1 trasbordo.', from:STATION_Q, to:'9/11 Memorial New York', mode:'transit' },
-  { cat:'place', icon:'&#128367;', title:'9/11 Memorial', domain:'911memorial.org', time:'10:15 AM',
+{ id:'d28', label:'28', dateLabel:'Oct 28', title:'Downtown', items:[
+  { cat:'transfer', icon:'&#128647;', title:'Metro al Downtown', time:'9:30 AM', sub:'1 trasbordo en West 4th St', dur:'~35 min',
+    note:'21 St-Queensbridge a West 4th St (F/M) a Chambers St (A/C), 1 trasbordo.', from:'21 St-Queensbridge Subway Station Long Island City', to:'9/11 Memorial New York', mode:'transit' },
+  { cat:'place', icon:'&#128367;', title:'9/11 Memorial', time:'10:15 AM', dur:'~1h', domain:'911memorial.org',
     bullets:['Dos piscinas enormes justo donde estaban las Torres Gemelas','Nombres de casi 3,000 victimas grabados en bronce alrededor del borde','Lugar para caminar despacio y en silencio','La parte de afuera es gratis'],
     ticketUrl:'https://visit.911memorial.org/webstore/shop/viewitems.aspx?cg=tickets&c=museum', ticketPrice:'museo ~$36', mapQuery:'9/11 Memorial New York' },
-  { cat:'transfer', icon:'&#128694;', title:'Caminata a One World Observatory', time:'&asymp; 3 min',
-    note:'', from:'9/11 Memorial New York', to:'One World Observatory New York', mode:'walking' },
-  { cat:'place', icon:'&#128506;', title:'One World Observatory', domain:'oneworldobservatory.com', time:'11:15 AM',
+  { cat:'transfer', icon:'&#128694;', title:'Caminata a One World Observatory', time:'11:12 AM', sub:'Mismo complejo', dur:'~3 min',
+    note:'Quedan pegados uno del otro.', from:'9/11 Memorial New York', to:'One World Observatory New York', mode:'walking' },
+  { cat:'place', icon:'&#128506;', title:'One World Observatory', time:'11:15 AM', dur:'~1-1.5h', domain:'oneworldobservatory.com',
     bullets:['Mirador de la torre mas alta del continente americano (541 m)','El ascensor muestra 500 anos de historia de NY en pantallas durante la subida','Mejor comprar entrada con anticipacion'],
     ticketUrl:'https://www.oneworldobservatory.com/buy-tickets/', ticketPrice:'$40-45', mapQuery:'One World Observatory New York' },
-  { cat:'meal', icon:'&#127869;', title:'Almuerzo - zona Oculus / Financial District', time:'1:00 PM', isMeal:true,
+  { cat:'meal', icon:'&#127869;', title:'Almuerzo - zona Oculus / Financial District', time:'1:00 PM', dur:'~1-1.5h', isMeal:true,
     note:'Todas las opciones quedan a 5-10 min caminando de One World Observatory.',
     options:[
       { emoji:'\ud83c\uddee\ud83c\uddf9', name:'Eataly Downtown', price:'$25-50', bullets:['Mercado italiano gigante con varios restaurantes adentro','Bueno para probar de todo con el grupo'],
@@ -373,22 +326,22 @@ const days = [
         google:'4.7', yelp:'118 resenas', tripadvisor:'No listado', menuUrl:'https://pos.chowbus.com/online-ordering/store/Goku-Kitchen-NYC/44252', mapsUrl:'https://www.google.com/maps/search/?api=1&query=Goku+Kitchen+NYC+26+Cedar+St+New+York' },
       { emoji:'\ud83e\udd69', name:'Harrys', price:'$70-120', bullets:['Parrilla clasica de Wall Street, desde 1972','Beef Wellington en el menu desde su apertura'],
         google:'4.5', yelp:'931 resenas', tripadvisor:'Presente', menuUrl:'https://www.harrysbarrestaurant.com/new-york-menu', mapsUrl:'https://www.google.com/maps/search/?api=1&query=Harrys+1+Hanover+Square+New+York' },
-      { emoji:'&#9749;', name:'Suited NYC', price:'$10-20', cafe:true, bullets:['Cafe con varios roasters y plato completo de desayuno','Buena parada rapida en FiDi'],
+      { emoji:'&#9749;', name:'Suited NYC', price:'$10-20', bullets:['Cafe con varios roasters y plato completo de desayuno','Buena parada rapida en FiDi'],
         google:'4.6', yelp:'211 resenas', tripadvisor:'No listado', menuUrl:'https://suitednyc.com/suited-menu', mapsUrl:'https://www.google.com/maps/search/?api=1&query=Suited+NYC+45+John+St+New+York' },
     ]},
-  { cat:'transfer', icon:'&#128694;', title:'Caminata a Wall Street', time:'&asymp; 10 min',
-    note:'', from:'Financial District New York', to:'Charging Bull Wall Street New York', mode:'walking' },
-  { cat:'place', icon:'&#128002;', title:'Wall Street y Charging Bull', domain:'nyse.com', time:'2:30 PM',
+  { cat:'transfer', icon:'&#128694;', title:'Caminata a Wall Street', time:'2:15 PM', sub:'Por Broadway', dur:'~10 min',
+    note:'Desde la zona del Oculus hasta Wall Street.', from:'Financial District New York', to:'Charging Bull Wall Street New York', mode:'walking' },
+  { cat:'place', icon:'&#128002;', title:'Wall Street y Charging Bull', time:'2:30 PM', dur:'~30-45 min', domain:'nyse.com',
     bullets:['Corazon financiero de EE. UU., aqui queda la Bolsa de Nueva York','El Toro de Bronce es la foto obligada: escultura de mas de 3 toneladas, simbolo de la fuerza del mercado'],
     mapQuery:'Charging Bull Wall Street New York' },
-  { cat:'transfer', icon:'&#128694;', title:'Caminata al Ferry', time:'&asymp; 12 min',
-    note:'', from:'Charging Bull Wall Street New York', to:'Staten Island Ferry Whitehall Terminal New York', mode:'walking' },
-  { cat:'place', icon:'&#9972;', title:'Staten Island Ferry', domain:'siferry.com', time:'3:15 PM',
+  { cat:'transfer', icon:'&#128694;', title:'Caminata al Ferry', time:'3:00 PM', sub:'Whitehall Terminal', dur:'~12 min',
+    note:'Desde Wall Street hasta la terminal del ferry.', from:'Charging Bull Wall Street New York', to:'Staten Island Ferry Whitehall Terminal New York', mode:'walking' },
+  { cat:'place', icon:'&#9972;', title:'Staten Island Ferry', time:'3:15 PM', dur:'~1h (ida y vuelta)', domain:'siferry.com',
     bullets:['Gratis, cruza la bahia hasta Staten Island','Pasa muy cerca de la Estatua de la Libertad, una de las mejores vistas sin gastar ni hacer fila','Ideal para el grupo: no hay que caminar de mas ni esperar en ninguna parte'],
     mapQuery:'Staten Island Ferry Whitehall Terminal New York' },
-  { cat:'transfer', icon:'&#128694;', title:'Caminata al Seaport', time:'&asymp; 15 min',
-    note:'', from:'Staten Island Ferry Whitehall Terminal New York', to:'South Street Seaport New York', mode:'walking' },
-  { cat:'meal', icon:'&#127869;', title:'Cena - South Street Seaport', time:'5:30 PM', isMeal:true,
+  { cat:'transfer', icon:'&#128694;', title:'Caminata al Seaport', time:'4:20 PM', sub:'De vuelta en Manhattan', dur:'~15 min',
+    note:'Desde la terminal del ferry hasta South Street Seaport.', from:'Staten Island Ferry Whitehall Terminal New York', to:'South Street Seaport New York', mode:'walking' },
+  { cat:'meal', icon:'&#127869;', title:'Cena - South Street Seaport', time:'5:30 PM', dur:'~1.5h', isMeal:true,
     note:'Todas las opciones quedan a 5-10 min caminando del muelle del Seaport.',
     options:[
       { emoji:'\ud83c\uddee\ud83c\uddf9', name:'Osteria Del Porto', price:'$45-70', bullets:['Italiana, buena carta de vinos','Terraza en el Seaport'],
@@ -399,25 +352,25 @@ const days = [
         google:'4.8', yelp:'~231 resenas', tripadvisor:'Listado limitado', menuUrl:'https://www.grubhub.com/restaurant/mezcali-83-maiden-ln-new-york', mapsUrl:'https://www.google.com/maps/search/?api=1&query=Mezcali+83+Maiden+Ln+New+York' },
       { emoji:'\ud83c\uddf9\ud83c\udded', name:'Hey Thai', price:'$20-30', bullets:['Opcion tailandesa, acogedora y sin pretensiones','Buena para cerrar el dia sin gastar de mas'],
         google:'4.8', yelp:'~362 resenas', tripadvisor:"4.6 (34, Travelers Choice)", menuUrl:'https://custom.order.online/store/hey-thai-23613099', mapsUrl:'https://www.google.com/maps/search/?api=1&query=Hey+Thai+127+John+St+New+York' },
-      { emoji:'&#9749;', name:'Cafe Patoro', price:'$8-18', cafe:true, bullets:['Pan de queso brasileno buenisimo','Buena parada dulce antes de volver al hotel'],
+      { emoji:'&#9749;', name:'Cafe Patoro', price:'$8-18', bullets:['Pan de queso brasileno buenisimo','Buena parada dulce antes de volver al hotel'],
         google:'4.6', yelp:'~251 resenas', tripadvisor:"4.7 (24, Travelers Choice)", menuUrl:'https://cafepatoro.com/order', mapsUrl:'https://www.google.com/maps/search/?api=1&query=Cafe+Patoro+223+Front+St+New+York' },
     ]},
-  { cat:'transfer', icon:'&#128647;', title:'Regreso al hotel', time:'&asymp; 35-40 min metro / 25-30 Uber',
-    note:'De noche mejor Uber que metro con trasbordo.', from:'South Street Seaport New York', to:HOTEL_Q, mode:'transit' },
+  { cat:'transfer', icon:'&#128647;', title:'Regreso al hotel', time:'7:15 PM', sub:'De noche mejor Uber', dur:'35-40 metro / 25-30 Uber',
+    note:'De noche mejor Uber que metro con trasbordo.', from:'South Street Seaport New York', to:'SpringHill Suites New York Queens 38-39 9th St Long Island City', mode:'transit' },
 ]},
 
-{ id:'d29', label:'Oct 29', title:'DUMBO (Brooklyn) y MoMA', items:[
-  { cat:'transfer', icon:'&#128647;', title:'Tren F a DUMBO', time:'&asymp; 25 min, directo',
-    note:'21 St-Queensbridge a York St, sin trasbordos.', from:STATION_Q, to:'DUMBO Brooklyn New York', mode:'transit' },
-  { cat:'place', icon:'&#127752;', title:'DUMBO, Brooklyn', domain:'dumbo.is', time:'9:20 AM',
+{ id:'d29', label:'29', dateLabel:'Oct 29', title:'DUMBO y MoMA', items:[
+  { cat:'transfer', icon:'&#128647;', title:'Tren F a DUMBO', time:'8:55 AM', sub:'Directo, sin trasbordos', dur:'~25 min',
+    note:'21 St-Queensbridge a York St, sin trasbordos.', from:'21 St-Queensbridge Subway Station Long Island City', to:'DUMBO Brooklyn New York', mode:'transit' },
+  { cat:'place', icon:'&#127752;', title:'DUMBO, Brooklyn', time:'9:20 AM', dur:'~1h', domain:'dumbo.is',
     bullets:['Barrio justo debajo del puente de Manhattan (de ahi el nombre)','La postal mas famosa de NY: el puente de Brooklyn enmarcado entre dos edificios en la calle Washington','Calles adoquinadas y varias galerias de arte para curiosear'],
     mapQuery:'DUMBO Brooklyn New York' },
-  { cat:'transfer', icon:'&#128694;', title:'Caminata a Brooklyn Bridge Park', time:'&asymp; 10 min',
-    note:'', from:'DUMBO Brooklyn New York', to:'Brooklyn Bridge Park New York', mode:'walking' },
-  { cat:'place', icon:'&#127890;', title:'Brooklyn Bridge Park', domain:'brooklynbridgepark.org', time:'10:30 AM',
+  { cat:'transfer', icon:'&#128694;', title:'Caminata a Brooklyn Bridge Park', time:'10:20 AM', sub:'Bajando al rio', dur:'~10 min',
+    note:'Desde DUMBO hasta el parque junto al East River.', from:'DUMBO Brooklyn New York', to:'Brooklyn Bridge Park New York', mode:'walking' },
+  { cat:'place', icon:'&#127890;', title:'Brooklyn Bridge Park', time:'10:30 AM', dur:'~1-1.5h', domain:'brooklynbridgepark.org',
     bullets:["Parque largo junto al rio, con el historico carrusel Janes Carousel","Vista directa al horizonte de Manhattan","Plano y tranquilo, bueno para caminar sin apuro"],
     mapQuery:'Brooklyn Bridge Park New York' },
-  { cat:'meal', icon:'&#127869;', title:'Almuerzo - zona DUMBO', time:'12:00 PM', isMeal:true,
+  { cat:'meal', icon:'&#127869;', title:'Almuerzo - zona DUMBO', time:'12:00 PM', dur:'~1-1.5h', isMeal:true,
     note:'Todas las opciones quedan a 5-10 min caminando de Brooklyn Bridge Park.',
     options:[
       { emoji:'\ud83c\uddfa\ud83c\uddf8', name:'Westville Dumbo', price:'$25-35', bullets:['La opcion mas segura, americana fresca y bien valorada'],
@@ -428,15 +381,15 @@ const days = [
         google:'-', yelp:'Sin resenas aun', tripadvisor:'No listado', menuUrl:'https://titan-nyc.com/menu', mapsUrl:'https://www.google.com/maps/search/?api=1&query=Titan+5+Front+St+Brooklyn' },
       { emoji:'&#127836;', name:'Lucky Rabbit Noodles', price:'$18-30', bullets:['Fideos y dumplings ricos, buen precio'],
         google:'4.6', yelp:'154 resenas', tripadvisor:'No listado', menuUrl:'https://www.doordash.com/en/store/lucky-rabbit-noodles-brooklyn-2692082/', mapsUrl:'https://www.google.com/maps/search/?api=1&query=Lucky+Rabbit+Noodles+151+Front+St+Brooklyn' },
-      { emoji:'&#9749;', name:'% Arabica', price:'$7-15', cafe:true, bullets:['Cafe minimalista con vista al puente de Brooklyn','Muy fotogenico, algo turistico'],
+      { emoji:'&#9749;', name:'% Arabica', price:'$7-15', bullets:['Cafe minimalista con vista al puente de Brooklyn','Muy fotogenico, algo turistico'],
         google:'4.4', yelp:'~356 resenas', tripadvisor:'4.6 (14)', menuUrl:'https://order.online/en-CA/store/arabica-fulton-st-25930325', mapsUrl:'https://www.google.com/maps/search/?api=1&query=Arabica+Coffee+20+Old+Fulton+St+Brooklyn' },
     ]},
-  { cat:'transfer', icon:'&#128647;', title:'Tren F a MoMA / Rockefeller', time:'&asymp; 25 min, directo',
+  { cat:'transfer', icon:'&#128647;', title:'Tren F a MoMA / Rockefeller', time:'1:45 PM', sub:'Directo, sin trasbordos', dur:'~25 min',
     note:'York St a 47-50 Sts-Rockefeller Ctr, sin trasbordos.', from:'DUMBO Brooklyn New York', to:'MoMA New York', mode:'transit' },
-  { cat:'place', icon:'&#128444;', title:'MoMA', domain:'moma.org', time:'2:15 PM',
+  { cat:'place', icon:'&#128444;', title:'MoMA', time:'2:15 PM', dur:'~2h', domain:'moma.org',
     bullets:['Uno de los museos de arte moderno mas importantes del mundo','Obras de Van Gogh, Picasso, Warhol y Dali','Espacio cerrado y climatizado, buen momento para descansar las piernas'],
     ticketUrl:'https://www.moma.org/visit/', ticketPrice:'~$30, gratis <16', mapQuery:'MoMA New York' },
-  { cat:'meal', icon:'&#127869;', title:"Cena - zona MoMA / Hells Kitchen", time:'5:30 PM', isMeal:true,
+  { cat:'meal', icon:'&#127869;', title:"Cena - zona MoMA / Hells Kitchen", time:'5:30 PM', dur:'~1.5h', isMeal:true,
     note:'Todas las opciones quedan a 10-15 min caminando de MoMA.',
     options:[
       { emoji:'\ud83c\uddfa\ud83c\uddf8', name:'Moms Kitchen and Bar', price:'$25-35', bullets:['Americana, informal, buen ambiente'],
@@ -449,19 +402,19 @@ const days = [
         google:'4.5', yelp:'4.0 (669)', tripadvisor:'Sin dato especifico', menuUrl:'https://www.malaproject.com/menu/dinner', mapsUrl:'https://www.google.com/maps/search/?api=1&query=Mala+Project+Midtown+East+245+E+53rd+St+New+York' },
       { emoji:'\ud83c\uddec\ud83c\uddf7', name:"Limani<span class='flag'>no confundir con sede Roslyn</span>", price:'$40-130', bullets:['Griego de mariscos, elegante para cerrar el viaje','Mas costoso: el pescado se cobra por libra'],
         google:'4.3', yelp:'~606 (OpenTable ~3,886)', tripadvisor:'~458', menuUrl:'https://limani.com/new-york/menu', mapsUrl:'https://www.google.com/maps/search/?api=1&query=Limani+45+Rockefeller+Plaza+New+York' },
-      { emoji:'&#9749;', name:'WatchHouse 5th Ave', price:'$8-20', cafe:true, bullets:['Cafe especializado, primera sede en EE. UU.','Buena parada de cierre antes del ultimo dia'],
+      { emoji:'&#9749;', name:'WatchHouse 5th Ave', price:'$8-20', bullets:['Cafe especializado, primera sede en EE. UU.','Buena parada de cierre antes del ultimo dia'],
         google:'4.5', yelp:'149 resenas', tripadvisor:'4.8 (solo 4)', menuUrl:'https://www.watchhouse.com/blogs/locations/watchhouse-5th-ave', mapsUrl:'https://www.google.com/maps/search/?api=1&query=WatchHouse+5th+Ave+660+5th+Ave+New+York' },
     ]},
-  { cat:'transfer', icon:'&#128647;', title:'Regreso al hotel', time:'&asymp; 15-20 min',
-    note:'Metro F/M directo.', from:'Rockefeller Center New York', to:HOTEL_Q, mode:'transit' },
+  { cat:'transfer', icon:'&#128647;', title:'Regreso al hotel', time:'7:15 PM', sub:'Metro F/M directo', dur:'~15-20 min',
+    note:'Metro F/M directo.', from:'Rockefeller Center New York', to:'SpringHill Suites New York Queens 38-39 9th St Long Island City', mode:'transit' },
 ]},
 
-{ id:'d30', label:'Oct 30', title:'Salida hacia Miami', items:[
+{ id:'d30', label:'30', dateLabel:'Oct 30', title:'Salida a Miami', items:[
   { cat:'hotel', icon:'&#129523;', title:'Despertar y maletas', time:'5:30 AM', text:'Dejar el equipaje listo la noche anterior para salir rapido.' },
-  { cat:'transfer', icon:'&#128661;', title:'Uber a LGA', time:'&asymp; 15-20 min',
-    note:'Salida a las 6:00 AM para llegar con margen.', from:HOTEL_Q, to:LGA_Q, mode:'driving' },
-  { cat:'transfer', icon:'&#9992;', title:'Vuelo AA970 LGA-MIA', time:'7:59 AM',
-    note:'Inicio de la etapa Miami-Orlando.', from:LGA_Q, to:LGA_Q, mode:'driving' },
+  { cat:'transfer', icon:'&#128661;', title:'Uber a LGA', time:'6:00 AM', sub:'Salida con margen', dur:'~15-20 min',
+    note:'Salida a las 6:00 AM para llegar con margen antes del vuelo.', from:'SpringHill Suites New York Queens 38-39 9th St Long Island City', to:'LaGuardia Airport New York', mode:'driving' },
+  { cat:'transfer', icon:'&#9992;', title:'Vuelo AA970 LGA-MIA', time:'7:59 AM', sub:'Inicio etapa Miami-Orlando',
+    note:'Primer vuelo del dia, hacia Miami.', from:'LaGuardia Airport New York', to:'LaGuardia Airport New York', mode:'driving' },
 ]},
 ];
 
@@ -473,14 +426,14 @@ days.forEach((day, idx)=>{
   const tab = document.createElement('button');
   tab.className = 'tab' + (idx===0?' active':'');
   tab.dataset.target = day.id;
-  tab.innerHTML = "<div class='tab-dot'>"+day.label.split(' ')[1]+"</div><div class='tab-label'>"+day.label+"</div>";
+  tab.innerHTML = "<div class='tab-dot'>"+day.label+"</div><div class='tab-label'>"+day.dateLabel+"</div>";
   tab.addEventListener('click', ()=> selectDay(day.id));
   tabbar.appendChild(tab);
 
   const side = document.createElement('button');
   side.className = 'side-tab' + (idx===0?' active':'');
   side.dataset.target = day.id;
-  side.innerHTML = "<div class='side-dot'>"+day.label.split(' ')[1]+"</div><div class='side-txt'><div class='side-label'>"+day.label+"</div><div class='side-title'>"+day.title+"</div></div>";
+  side.innerHTML = "<div class='side-dot'>"+day.label+"</div><div class='side-txt'><div class='side-label'>"+day.dateLabel+"</div><div class='side-title'>"+day.title+"</div></div>";
   side.addEventListener('click', ()=> selectDay(day.id));
   sidenavList.appendChild(side);
 
@@ -488,43 +441,73 @@ days.forEach((day, idx)=>{
   view.className = 'day-view' + (idx===0?' active':'');
   view.id = day.id;
 
-  let html = "<div class='day-hero'><div class='k'>"+day.label+"</div><h2>"+day.title+"</h2></div>"
-    + "<div class='legend'>"
-    + "<div class='legend-item'><span class='legend-dot' style='background:#6B4A9E'></span>Hotel</div>"
-    + "<div class='legend-item'><span class='legend-dot' style='background:#2E7D8C'></span>Traslados</div>"
-    + "<div class='legend-item'><span class='legend-dot' style='background:#E8600F'></span>Lugares</div>"
-    + "<div class='legend-item'><span class='legend-dot' style='background:#C0344D'></span>Comidas</div>"
+  let html = "<div class='kicker'>"+day.dateLabel+"</div><div class='day-title'>"+day.title+"</div>"
+    + "<div class='filters'>"
+    + "<button class='chip active' data-cat='hotel' style='--c:var(--hotel)'><span class='roundel'>H</span>Hotel</button>"
+    + "<button class='chip active' data-cat='transfer' style='--c:var(--transfer)'><span class='roundel'>T</span>Traslados</button>"
+    + "<button class='chip active' data-cat='place' style='--c:var(--place)'><span class='roundel'>L</span>Lugares</button>"
+    + "<button class='chip active' data-cat='meal' style='--c:var(--meal)'><span class='roundel'>C</span>Comidas</button>"
     + "</div><div class='timeline'>";
 
   day.items.forEach((it)=>{
     let bodyHtml = '';
+    let metaLine = '';
+    let logo = '';
+
     if(it.isMeal){
       bodyHtml = "<div class='meal-note'>"+it.note+"</div>" + it.options.map(restaurantHTML).join('');
+      metaLine = it.time;
+      logo = logoEmoji(it.icon);
     } else if(it.cat === 'transfer'){
-      bodyHtml = transferHTML(it);
+      var url = gmapsDirections(it.from, it.to, it.mode);
+      bodyHtml = "<div style='margin-bottom:10px;'>"+it.note+"</div><div class='actions'><a href='"+url+"' target='_blank' rel='noopener'>Como llegar en Google Maps</a></div>";
+      metaLine = it.time + (it.sub ? (" &middot; "+it.sub) : '');
+      logo = logoEmoji(it.icon);
     } else if(it.cat === 'place'){
-      bodyHtml = placeHTML(it);
+      bodyHtml = "<ul>"+it.bullets.map(function(b){return "<li>"+b+"</li>";}).join('')+"</ul>";
+      bodyHtml += "<div class='actions'>";
+      if(it.ticketUrl){ bodyHtml += "<a href='"+it.ticketUrl+"' target='_blank' rel='noopener'>Comprar tiquetes ("+it.ticketPrice+")</a>"; }
+      bodyHtml += "<a href='"+gmapsSearch(it.mapQuery)+"' target='_blank' rel='noopener'>Ver ubicacion</a></div>";
+      metaLine = it.time + (it.domain ? (" &middot; "+it.domain) : '');
+      logo = it.domain ? logoWithFavicon(it.domain, it.icon) : logoEmoji(it.icon);
     } else {
       bodyHtml = it.text || '';
+      metaLine = it.time;
+      logo = logoEmoji(it.icon);
     }
-    var metaText = it.cat==='place' && it.domain ? (it.time+" &middot; "+it.domain) : it.time;
-    var iconBlock = it.cat==='place' && it.domain ? logoHTML(it.domain, it.icon, 52) : ("<div class='icon'>"+it.icon+"</div>");
-    html += "<div class='item "+it.cat+"'><div class='item-dot'></div>"
-      + "<div class='row' onclick=\"this.parentElement.classList.toggle('open')\">"
-      + iconBlock + "<div class='txt'><div class='title'>"+it.title+"</div><div class='meta'>"+metaText+"</div></div>"
-      + "<svg class='chevron' viewBox='0 0 24 24' fill='none'><path d='M6 9l6 6 6-6' stroke='currentColor' stroke-width='2' stroke-linecap='round'/></svg></div>"
-      + "<div class='panel'><div class='panel-inner'>"+bodyHtml+"</div></div></div>";
+
+    var durBadge = it.dur ? "<div class='duration'>"+it.dur+"</div>" : "";
+
+    html += "<div class='stop' data-cat='"+it.cat+"'><div class='stop-dot' style='--c:var(--"+it.cat+")'></div>"
+      + "<div class='card' style='--c:var(--"+it.cat+")'>"
+      + "<div class='card-head' onclick=\"this.parentElement.classList.toggle('open')\">"
+      + logo
+      + "<div class='txt'><div class='cat-label'>"+CAT_LABEL[it.cat]+"</div><div class='title'>"+it.title+"</div><div class='meta'>"+metaLine+"</div></div>"
+      + "<div class='side'>"+durBadge+"<svg class='chev' viewBox='0 0 24 24' fill='none'><path d='M6 9l6 6 6-6' stroke='currentColor' stroke-width='2' stroke-linecap='round'/></svg></div>"
+      + "</div>"
+      + "<div class='card-body'><div class='card-body-inner'>"+bodyHtml+"</div></div>"
+      + "</div></div>";
   });
 
   html += "</div>";
   view.innerHTML = html;
   content.appendChild(view);
+
+  view.querySelectorAll('.chip').forEach(function(chip){
+    chip.addEventListener('click', function(){
+      chip.classList.toggle('active');
+      var activeCats = [].slice.call(view.querySelectorAll('.chip.active')).map(function(c){return c.dataset.cat;});
+      view.querySelectorAll('.stop[data-cat]').forEach(function(stop){
+        stop.classList.toggle('hidden', activeCats.indexOf(stop.dataset.cat) === -1);
+      });
+    });
+  });
 });
 
 function selectDay(id){
-  document.querySelectorAll('.tab').forEach(t=> t.classList.toggle('active', t.dataset.target===id));
-  document.querySelectorAll('.side-tab').forEach(t=> t.classList.toggle('active', t.dataset.target===id));
-  document.querySelectorAll('.day-view').forEach(d=> d.classList.toggle('active', d.id===id));
+  document.querySelectorAll('.tab').forEach(function(t){ t.classList.toggle('active', t.dataset.target===id); });
+  document.querySelectorAll('.side-tab').forEach(function(t){ t.classList.toggle('active', t.dataset.target===id); });
+  document.querySelectorAll('.day-view').forEach(function(d){ d.classList.toggle('active', d.id===id); });
   document.getElementById('content').scrollTop = 0;
 }
 </script>
