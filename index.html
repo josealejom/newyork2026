@@ -3,14 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>New York 2026</title>
+<title>Nueva York</title>
 
 <!-- ===== PWA / Add to Home Screen ===== -->
 <meta name="theme-color" content="#12151A">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="New York 2026">
+<meta name="apple-mobile-web-app-title" content="Nueva York">
 <link rel="apple-touch-icon" href="icon-180.png">
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
 <link rel="manifest" href="manifest.json">
@@ -20,7 +20,7 @@
 <style>
   :root{
     --bg:#FAF8F5; --card:#FFFFFF; --card-2:#FBFAF8; --line:#E7E3DC; --ink:#181A1F; --muted:#767D8A;
-    --hotel:#6B4A9E; --transfer:#1F7A88; --place:#D9550A; --meal:#B23350;
+    --hotel:#2563EB; --transfer:#16A34A; --place:#F97316; --meal:#DB2777;
     --tabbar-h:62px; --safe-top:env(safe-area-inset-top,0px); --safe-bottom:env(safe-area-inset-bottom,0px);
   }
   *{ box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
@@ -103,12 +103,27 @@
   .ratings span{ background:#fff; border:1px solid var(--line); border-radius:5px; padding:2px 6px; }
   .flag{ display:inline-block; background:#FFF3CD; color:#8A6300; font-family:'IBM Plex Mono',monospace; font-size:9px; padding:1px 6px; border-radius:5px; margin-left:4px; }
 
-  .tabbar{ position:fixed; left:0; right:0; bottom:0; height:calc(var(--tabbar-h) + var(--safe-bottom)); padding-bottom:var(--safe-bottom); background:rgba(255,255,255,.92); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px); border-top:1px solid var(--line); display:flex; z-index:20; }
-  .tab{ flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:3px; border:none; background:none; cursor:pointer; color:var(--muted); padding:6px 2px; }
-  .tab .tab-dot{ width:22px; height:22px; border-radius:7px; display:flex; align-items:center; justify-content:center; font-family:'Big Shoulders Display',sans-serif; font-size:12px; font-weight:800; background:var(--card-2); color:var(--muted); }
-  .tab.active .tab-dot{ background:var(--ink); color:#fff; }
-  .tab .tab-label{ font-size:9px; font-weight:600; font-family:'IBM Plex Mono',monospace; }
-  .tab.active .tab-label{ color:var(--ink); }
+  .weather-card{ background:#E7F1FB; border:1px solid #C9E0F2; border-left:5px solid #2E7DBE; border-radius:10px; box-shadow:0 1px 3px rgba(20,20,30,.04); overflow:hidden; margin-bottom:18px; }
+  .weather-head{ display:flex; align-items:center; gap:13px; padding:15px 16px; cursor:pointer; }
+  .weather-head .logo{ width:48px; height:48px; border-radius:11px; flex:none; background:#fff; border:1px solid #C9E0F2; display:flex; align-items:center; justify-content:center; font-size:24px; }
+  .weather-head .title{ font-family:'Big Shoulders Display',sans-serif; font-weight:800; font-size:22px; line-height:1; letter-spacing:.01em; color:#2E7DBE; }
+  .weather-head .side{ flex:none; display:flex; align-items:center; gap:12px; margin-left:auto; }
+  .weather-temp{ font-family:'Big Shoulders Display',sans-serif; font-weight:800; font-size:19px; color:var(--ink); white-space:nowrap; }
+  .weather-chev{ width:16px; height:16px; color:#2E7DBE; transition:transform .2s; }
+  .weather-card.open .weather-chev{ transform:rotate(180deg); }
+  .weather-body{ max-height:0; overflow:hidden; transition:max-height .3s ease; }
+  .weather-card.open .weather-body{ max-height:400px; }
+  .weather-body-inner{ padding:0 18px 17px 77px; font-size:13px; color:#3B4552; line-height:1.6; }
+  .weather-body-inner .actions{ display:flex; gap:7px; flex-wrap:wrap; margin-top:10px; }
+  .weather-body-inner .actions a{ font-family:'IBM Plex Mono',monospace; font-size:10.5px; font-weight:600; text-decoration:none; border:1.3px solid #2E7DBE; color:#2E7DBE; border-radius:8px; padding:5px 10px; background:#fff; }
+  @media (min-width:768px){ .weather-head{ padding:16px 17px; gap:14px; } .weather-head .logo{ width:52px; height:52px; } .weather-body-inner{ padding:0 18px 18px 79px; font-size:13px; } }
+
+  .tabbar{ position:fixed; left:0; right:0; bottom:0; height:calc(var(--tabbar-h) + var(--safe-bottom)); padding-bottom:var(--safe-bottom); background:#3A3D45; backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px); border-top:1px solid #3A3D45; display:flex; z-index:20; }
+  .tab{ flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:3px; border:none; background:none; cursor:pointer; color:#9CA1AC; padding:6px 2px; }
+  .tab .tab-dot{ width:22px; height:22px; border-radius:7px; display:flex; align-items:center; justify-content:center; font-family:'Big Shoulders Display',sans-serif; font-size:12px; font-weight:800; background:#4E525C; color:#C5C9D1; }
+  .tab.active .tab-dot{ background:#fff; color:#181A1F; }
+  .tab .tab-label{ font-size:9px; font-weight:600; font-family:'IBM Plex Mono',monospace; color:#9CA1AC; }
+  .tab.active .tab-label{ color:#fff; }
 
   @media (max-width:359px){
     .content{ padding:12px 12px calc(var(--tabbar-h) + var(--safe-bottom) + 20px); }
@@ -119,8 +134,8 @@
 
   @media (min-width:768px){
     .tabbar{ display:none; }
-    .app{ max-width:1200px; margin:0 auto; }
-    .sidenav{ display:flex; flex-direction:column; width:248px; flex:none; border-right:1px solid var(--line); padding:22px 16px; height:100vh; height:100dvh; position:sticky; top:0; overflow-y:auto; }
+    .app{ max-width:1440px; margin:0 auto; }
+    .sidenav{ display:flex; flex-direction:column; width:250px; flex:none; border-right:1px solid var(--line); padding:22px 16px; height:100vh; height:100dvh; position:sticky; top:0; overflow-y:auto; }
     .sidenav .brand{ display:flex; align-items:center; gap:10px; padding:0 6px 20px; }
     .sidenav .brand-icon{ width:32px; height:32px; border-radius:9px; overflow:hidden; display:flex; align-items:center; justify-content:center; flex:none; }
     .sidenav .brand-icon img{ width:100%; height:100%; object-fit:cover; display:block; }
@@ -129,14 +144,16 @@
     .side-tab{ display:flex; align-items:center; gap:11px; padding:11px 12px; border-radius:12px; border:none; background:none; cursor:pointer; text-align:left; width:100%; color:var(--ink); margin-bottom:4px; }
     .side-tab:hover{ background:var(--card-2); }
     .side-tab.active{ background:var(--card-2); }
-    .side-tab .side-dot{ width:30px; height:30px; border-radius:9px; flex:none; display:flex; align-items:center; justify-content:center; font-family:'Big Shoulders Display',sans-serif; font-size:13px; font-weight:800; background:var(--card-2); color:var(--muted); }
-    .side-tab.active .side-dot{ background:var(--ink); color:#fff; }
+    .side-tab .side-dot{ width:38px; height:38px; border-radius:10px; flex:none; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:1px; font-family:'Big Shoulders Display',sans-serif; background:var(--card-2); color:var(--muted); }
+    .side-tab .side-dot .num{ font-size:14px; font-weight:800; line-height:1; }
+    .side-tab .side-dot .mon{ font-size:7.5px; font-weight:700; letter-spacing:.04em; line-height:1; font-family:'IBM Plex Mono',monospace; }
+    .side-tab.active .side-dot{ background:var(--ink); }
+    .side-tab.active .side-dot .num, .side-tab.active .side-dot .mon{ color:#fff; }
     .side-tab .side-txt{ min-width:0; }
-    .side-tab .side-label{ font-size:12px; font-weight:700; font-family:'IBM Plex Mono',monospace; }
-    .side-tab .side-title{ font-size:10.5px; color:var(--muted); margin-top:1px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .side-tab .side-title{ font-size:13.5px; font-weight:700; color:var(--ink); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; font-family:'IBM Plex Sans',sans-serif; }
     .main{ height:100vh; height:100dvh; }
     .topbar{ display:none; }
-    .content{ padding:36px 40px 48px; max-width:760px; margin:0 auto; width:100%; }
+    .content{ padding:36px 40px 48px; max-width:1000px; margin:0 auto; width:100%; }
     .day-title{ font-size:38px; }
     .card-head{ padding:16px 17px; gap:14px; }
     .card-head .logo{ width:52px; height:52px; }
@@ -144,8 +161,8 @@
     .card-body-inner{ padding:2px 18px 18px 79px; font-size:13px; }
   }
   @media (min-width:1024px){
-    .sidenav{ width:272px; padding:26px 18px; }
-    .content{ max-width:820px; padding:44px 48px 56px; }
+    .sidenav{ width:270px; padding:26px 18px; }
+    .content{ max-width:1100px; padding:44px 56px 56px; }
   }
 </style>
 </head>
@@ -154,8 +171,8 @@
 <div class="app">
   <nav class="sidenav" id="sidenav">
     <div class="brand">
-      <div class="brand-icon"><img src="icon-192.png" alt="New York 2026"></div>
-      <div><h1>New York 2026</h1><div class="brand-sub">26&ndash;30 Oct</div></div>
+      <div class="brand-icon"><img src="icon-192.png" alt="Nueva York"></div>
+      <div><h1>Nueva York</h1><div class="brand-sub">26&ndash;30 Oct</div></div>
     </div>
     <div id="sidenavList"></div>
   </nav>
@@ -163,8 +180,8 @@
   <div class="main">
     <div class="topbar">
       <div class="brand">
-        <div class="brand-icon"><img src="icon-192.png" alt="New York 2026"></div>
-        <h1>New York 2026</h1>
+        <div class="brand-icon"><img src="icon-192.png" alt="Nueva York"></div>
+        <h1>Nueva York</h1>
       </div>
       <div class="datebadge">26&ndash;30 Oct</div>
     </div>
@@ -200,7 +217,7 @@ function restaurantHTML(r){
   return "<div class='rest'>"
     + "<div class='rest-head' onclick=\"this.parentElement.classList.toggle('open')\">"
     + logoWithFavicon(domain, r.emoji)
-    + "<div style='flex:1;min-width:0'><div class='nm'>"+r.name+"</div><div class='domain'>"+domain+"</div></div>"
+    + "<div style='flex:1;min-width:0'><div class='nm'>"+r.name+"</div><div class='domain'>"+r.cuisine+"</div></div>"
     + "<div class='price'>"+r.price+"</div>"
     + "<svg class='rchev' viewBox='0 0 24 24' fill='none'><path d='M6 9l6 6 6-6' stroke='currentColor' stroke-width='2' stroke-linecap='round'/></svg>"
     + "</div>"
@@ -218,7 +235,9 @@ function restaurantHTML(r){
 
 const days = [
 
-{ id:'d26', label:'26', dateLabel:'Oct 26', title:'Llegada a Nueva York', items:[
+{ id:'d26', label:'26', dateLabel:'Oct 26', title:'Llegada a Nueva York',
+  weather:{ lo:13, hi:20, desc:'Otono en Nueva York: fresco en la manana y la noche, templado al mediodia. Buena epoca para vestirse por capas.' },
+  items:[
   { cat:'transfer', icon:'&#9992;', title:'Llegada a LGA', time:'5:23 PM', sub:'Vuelo domestico desde MIA (AA552)',
     note:'Sin tramites de inmigracion adicionales, se sale directo hacia la zona de transporte terrestre.', from:'LaGuardia Airport New York', to:'LaGuardia Airport New York', mode:'driving' },
   { cat:'transfer', icon:'&#128661;', title:'Uber al hotel', time:'5:45 PM', sub:'Aprox 9 km sin trafico', dur:'~15-20 min',
@@ -229,22 +248,24 @@ const days = [
   { cat:'meal', icon:'&#127869;', title:'Cena - zona del hotel (LIC)', time:'8:00 PM', dur:'~1-1.5h', isMeal:true,
     note:'A un Uber corto (8-12 min) del hotel; mejor no aventurarse muy lejos la primera noche. De noche conviene pedir Uber directo, no caminar.',
     options:[
-      { emoji:'\ud83c\uddfa\ud83c\uddf8', name:'Westville LIC', price:'$25-35', bullets:['La mas segura y versatil','Comida americana fresca'],
+      { emoji:'\ud83c\uddfa\ud83c\uddf8', name:'Westville LIC', price:'$25-35', cuisine:'Americana', bullets:['La mas segura y versatil','Comida americana fresca'],
         google:'4.7', yelp:'~4.6', tripadvisor:'-', menuUrl:'https://westville.com/', mapsUrl:'https://www.google.com/maps/search/?api=1&query=Westville+Long+Island+City+43-12+Hunter+St' },
-      { emoji:'\ud83c\uddee\ud83c\uddf9', name:'Go Nonna', price:'$30-40', bullets:['Mezcla italiana y argentina','Ambiente acogedor'],
+      { emoji:'\ud83c\uddee\ud83c\uddf9', name:'Go Nonna', price:'$30-40', cuisine:'Italiana-Argentina', bullets:['Mezcla italiana y argentina','Ambiente acogedor'],
         google:'4.6', yelp:'4.5', tripadvisor:'Bien valorado', menuUrl:'https://gononna.com/', mapsUrl:'https://www.google.com/maps/search/?api=1&query=Go+Nonna+44-64+11th+St+Long+Island+City' },
-      { emoji:'\ud83c\uddef\ud83c\uddf5', name:'Gyu-Kaku', price:'$45-70', bullets:['Parrilla japonesa para cocinar en la mesa','Divertido para compartir en grupo'],
+      { emoji:'\ud83c\uddef\ud83c\uddf5', name:'Gyu-Kaku', price:'$45-70', cuisine:'Japonesa (BBQ)', bullets:['Parrilla japonesa para cocinar en la mesa','Divertido para compartir en grupo'],
         google:'4.6', yelp:'85 resenas', tripadvisor:'Presente (65+)', menuUrl:'https://gyu-kaku.com/longislandcity', mapsUrl:'https://www.google.com/maps/search/?api=1&query=Gyu-Kaku+Japanese+BBQ+LIC+44-45+21st+St' },
-      { emoji:'\ud83c\uddf2\ud83c\uddfd', name:'Casa Enrique', price:'$45-60', bullets:['La joya del barrio, con estrella Michelin','Comida mexicana de verdad, vale la pena para consentirse'],
+      { emoji:'\ud83c\uddf2\ud83c\uddfd', name:'Casa Enrique', price:'$45-60', cuisine:'Mexicana', bullets:['La joya del barrio, con estrella Michelin','Comida mexicana de verdad, vale la pena para consentirse'],
         google:'4.5', yelp:'4.6', tripadvisor:'Muy bien valorado', menuUrl:'https://casaenriquelic.com/', mapsUrl:'https://www.google.com/maps/search/?api=1&query=Casa+Enrique+5-48+49th+Ave+Long+Island+City' },
-      { emoji:'\ud83c\uddf9\ud83c\udded', name:'Saang Thai', price:'$20-30', bullets:['Opcion tailandesa','Ambiente lindo y acogedor'],
+      { emoji:'\ud83c\uddf9\ud83c\udded', name:'Saang Thai', price:'$20-30', cuisine:'Tailandesa', bullets:['Opcion tailandesa','Ambiente lindo y acogedor'],
         google:'4.7', yelp:'18 resenas', tripadvisor:'No listado', menuUrl:'https://www.saangnyc.com/', mapsUrl:'https://www.google.com/maps/search/?api=1&query=Saang+Thai+47-45+Vernon+Blvd+Long+Island+City' },
-      { emoji:'&#9749;', name:'No Stress Coffee', price:'$5-12', bullets:['Cafe de barrio, parada rapida','Sin sitio web propio'],
+      { emoji:'&#9749;', name:'No Stress Coffee', price:'$5-12', cuisine:'Cafe', bullets:['Cafe de barrio, parada rapida','Sin sitio web propio'],
         google:'4.7', yelp:'125 resenas', tripadvisor:'No listado', menuUrl:'https://joe.coffee/locations/ny/long-island-city/no-stress-coffee-long-island-city', mapsUrl:'https://www.google.com/maps/search/?api=1&query=No+Stress+Coffee+42-77+Hunter+St+Long+Island+City' },
     ]},
 ]},
 
-{ id:'d27', label:'27', dateLabel:'Oct 27', title:'Midtown', items:[
+{ id:'d27', label:'27', dateLabel:'Oct 27', title:'Midtown',
+  weather:{ lo:12, hi:19, desc:'Otono en Nueva York: fresco en la manana y la noche, templado al mediodia. Buena epoca para vestirse por capas.' },
+  items:[
   { cat:'hotel', icon:'&#127869;', title:'Desayuno en el hotel', time:'8:30 AM', text:'Incluido en la reserva.' },
   { cat:'transfer', icon:'&#128694;', title:'Caminata a la estacion', time:'9:15 AM', sub:'21 St-Queensbridge', dur:'~12 min',
     note:'21 St-Queensbridge (F/M), ascensor disponible, o shuttle del hotel.', from:'SpringHill Suites New York Queens 38-39 9th St Long Island City', to:'21 St-Queensbridge Subway Station Long Island City', mode:'walking' },
@@ -256,17 +277,17 @@ const days = [
   { cat:'meal', icon:'&#127869;', title:'Almuerzo - zona Rockefeller Center', time:'12:30 PM', dur:'~1-1.5h', isMeal:true,
     note:'Todas las opciones quedan a 5-10 min caminando de Top of the Rock.',
     options:[
-      { emoji:'\ud83c\uddfa\ud83c\uddf8', name:'The Elgin', price:'$30-40', bullets:['Ambiente relajado tipo pub americano','Ideal para un almuerzo sin complicaciones'],
+      { emoji:'\ud83c\uddfa\ud83c\uddf8', name:'The Elgin', price:'$30-40', cuisine:'Americana', bullets:['Ambiente relajado tipo pub americano','Ideal para un almuerzo sin complicaciones'],
         google:'4.5', yelp:'-', tripadvisor:'4.4-4.5', menuUrl:'https://www.elginnyc.com/', mapsUrl:'https://www.google.com/maps/search/?api=1&query=The+Elgin+64+W+48th+St+New+York' },
-      { emoji:'\ud83c\uddec\ud83c\uddf7', name:'Avra Rockefeller', price:'$70-120', bullets:['Cocina griega de mariscos, refinada','Pescado entero a la parrilla; hay prix-fixe de almuerzo ~$40'],
+      { emoji:'\ud83c\uddec\ud83c\uddf7', name:'Avra Rockefeller', price:'$70-120', cuisine:'Griega', bullets:['Cocina griega de mariscos, refinada','Pescado entero a la parrilla; hay prix-fixe de almuerzo ~$40'],
         google:'4.6', yelp:'307 resenas', tripadvisor:'Presente (300+)', menuUrl:'https://www.theavragroup.com/avra-menus/rockefeller-center-all-day', mapsUrl:'https://www.google.com/maps/search/?api=1&query=Avra+Rockefeller+Center+1271+6th+Ave+New+York' },
-      { emoji:'\ud83c\uddee\ud83c\uddf9', name:'Duomo51', price:'$60-90', bullets:['Italiano moderno en una terraza con vista a la Catedral de San Patricio','Almuerzo de 3 tiempos ~$40'],
+      { emoji:'\ud83c\uddee\ud83c\uddf9', name:'Duomo51', price:'$60-90', cuisine:'Italiana', bullets:['Italiano moderno en una terraza con vista a la Catedral de San Patricio','Almuerzo de 3 tiempos ~$40'],
         google:'4.6', yelp:'248 resenas', tripadvisor:'Presente', menuUrl:'https://duomo51.com/menus.html', mapsUrl:'https://www.google.com/maps/search/?api=1&query=Duomo51+25+W+51st+St+New+York' },
-      { emoji:'\ud83c\uddf2\ud83c\uddfd', name:'Amor Loco', price:'$25-40', bullets:['Taqueria animada estilo Ciudad de Mexico','Buena opcion informal para el grupo'],
+      { emoji:'\ud83c\uddf2\ud83c\uddfd', name:'Amor Loco', price:'$25-40', cuisine:'Mexicana', bullets:['Taqueria animada estilo Ciudad de Mexico','Buena opcion informal para el grupo'],
         google:'4.7', yelp:'224 resenas', tripadvisor:'Presente', menuUrl:'https://www.toasttab.com/local/amor-loco-nyc', mapsUrl:'https://www.google.com/maps/search/?api=1&query=Amor+Loco+134+W+46th+St+New+York' },
-      { emoji:'\ud83c\udde8\ud83c\uddf3', name:"The Best Sichuan<span class='flag'>verificar direccion</span>", price:'$25-40', bullets:['Comida Sichuan autentica (dry pot, pescado hervido en agua)','El local ahora se llama Mala Kitchen, confirmar antes de ir'],
+      { emoji:'\ud83c\udde8\ud83c\uddf3', name:"The Best Sichuan<span class='flag'>verificar direccion</span>", price:'$25-40', cuisine:'China (Sichuan)', bullets:['Comida Sichuan autentica (dry pot, pescado hervido en agua)','El local ahora se llama Mala Kitchen, confirmar antes de ir'],
         google:'-', yelp:'79 resenas (Mala Kitchen)', tripadvisor:'No claro', menuUrl:'https://www.grubhub.com/restaurant/the-best-sichuan-7-e-47th-st-new-york', mapsUrl:'https://www.google.com/maps/search/?api=1&query=Mala+Kitchen+7+E+47th+St+New+York' },
-      { emoji:'&#9749;', name:'Blue Bottle Coffee', price:'$7-16', bullets:['Cafe especializado, parada rapida','En el sotano de Rockefeller Plaza'],
+      { emoji:'&#9749;', name:'Blue Bottle Coffee', price:'$7-16', cuisine:'Cafe', bullets:['Cafe especializado, parada rapida','En el sotano de Rockefeller Plaza'],
         google:'4.4', yelp:'~61 resenas', tripadvisor:"~217 (Travelers Choice)", menuUrl:'https://bluebottlecoffee.com/us/eng/cafes/rockefeller-center', mapsUrl:'https://www.google.com/maps/search/?api=1&query=Blue+Bottle+Coffee+1+Rockefeller+Plaza+New+York' },
     ]},
   { cat:'transfer', icon:'&#128694;', title:'Caminata a Central Park', time:'1:45 PM', sub:'Desde Rockefeller Center', dur:'~20 min',
@@ -287,24 +308,26 @@ const days = [
   { cat:'meal', icon:'&#127869;', title:'Cena - zona Times Square', time:'7:00 PM', dur:'~1.5h', isMeal:true,
     note:'Todas las opciones quedan a 5-10 min caminando de Times Square.',
     options:[
-      { emoji:'\ud83c\uddee\ud83c\uddf9', name:'Carmines', price:'$35-45', bullets:['La mas clasica de la zona','Porciones familiares italianas para compartir, ideal para el grupo'],
+      { emoji:'\ud83c\uddee\ud83c\uddf9', name:'Carmines', price:'$35-45', cuisine:'Italiana', bullets:['La mas clasica de la zona','Porciones familiares italianas para compartir, ideal para el grupo'],
         google:'4.5', yelp:'4.0 (5,501)', tripadvisor:'4.4 (13,315+)', menuUrl:'https://www.carminesnyc.com/', mapsUrl:'https://www.google.com/maps/search/?api=1&query=Carmines+Times+Square+200+W+44th+St+New+York' },
-      { emoji:'\ud83c\uddfa\ud83c\uddf8', name:'Juniors', price:'$20-35', bullets:['Diner clasico, ambiente informal','Su cheesecake es famoso, buena opcion si alguien quiere algo dulce'],
+      { emoji:'\ud83c\uddfa\ud83c\uddf8', name:'Juniors', price:'$20-35', cuisine:'Americana (diner)', bullets:['Diner clasico, ambiente informal','Su cheesecake es famoso, buena opcion si alguien quiere algo dulce'],
         google:'4.4', yelp:'6,905 resenas', tripadvisor:'Presente (miles)', menuUrl:'https://www.juniorscheesecake.com/pages/45th-st-nyc', mapsUrl:'https://www.google.com/maps/search/?api=1&query=Juniors+Restaurant+Bakery+1515+Broadway+New+York' },
-      { emoji:'\ud83c\uddf2\ud83c\uddfd', name:'LOLITA', price:'$30-50', bullets:['Buen ambiente mexicano con margaritas','Ideal si el grupo quiere algo mas animado esa noche'],
+      { emoji:'\ud83c\uddf2\ud83c\uddfd', name:'LOLITA', price:'$30-50', cuisine:'Mexicana', bullets:['Buen ambiente mexicano con margaritas','Ideal si el grupo quiere algo mas animado esa noche'],
         google:'4.5', yelp:'183 resenas', tripadvisor:'Presente', menuUrl:'https://www.lolitanewyorkcity.com/', mapsUrl:'https://www.google.com/maps/search/?api=1&query=Lolita+45+W+45th+St+New+York' },
-      { emoji:'\ud83c\udde8\ud83c\uddf3', name:'Mountain House', price:'$30-45', bullets:['Apuesta segura de comida china picante (Szechuan)','Decoracion de bambu, cerca del Theater District'],
+      { emoji:'\ud83c\udde8\ud83c\uddf3', name:'Mountain House', price:'$30-45', cuisine:'China (Szechuan)', bullets:['Apuesta segura de comida china picante (Szechuan)','Decoracion de bambu, cerca del Theater District'],
         google:'4.8', yelp:'109 resenas', tripadvisor:'Listado', menuUrl:'https://www.szechuanmountainhouse.com/menu', mapsUrl:'https://www.google.com/maps/search/?api=1&query=Mountain+House+Times+Square+353+W+46th+St+New+York' },
-      { emoji:'\ud83c\uddf9\ud83c\udded', name:'Elephant Ear', price:'$25-40', bullets:["Opcion tailandesa moderna en Hells Kitchen",'Buen punto medio entre casual y elegante'],
+      { emoji:'\ud83c\uddf9\ud83c\udded', name:'Elephant Ear', price:'$25-40', cuisine:'Tailandesa', bullets:["Opcion tailandesa moderna en Hells Kitchen",'Buen punto medio entre casual y elegante'],
         google:'4.8', yelp:'238 resenas', tripadvisor:'Presente (OpenTable 4.1)', menuUrl:'https://www.elephantear.com/', mapsUrl:'https://www.google.com/maps/search/?api=1&query=Elephant+Ear+690+9th+Ave+New+York' },
-      { emoji:'&#9749;', name:'Central Perk Coffee Co.', price:'$10-25', bullets:['Cafeteria tematica de Friends, menu del chef Tom Colicchio','Buena parada de postre despues de la cena'],
+      { emoji:'&#9749;', name:'Central Perk Coffee Co.', price:'$10-25', cuisine:'Cafe', bullets:['Cafeteria tematica de Friends, menu del chef Tom Colicchio','Buena parada de postre despues de la cena'],
         google:'4.1', yelp:'48 resenas (abrio dic 2025)', tripadvisor:'No establecido aun', menuUrl:'https://www.centralperk.com/pages/new-york-city-store-location', mapsUrl:'https://www.google.com/maps/search/?api=1&query=Central+Perk+Coffee+Company+20+Times+Square+New+York' },
     ]},
   { cat:'transfer', icon:'&#128647;', title:'Regreso al hotel', time:'8:30 PM', sub:'Metro F/M directo o Uber', dur:'~15-20 min',
     note:'Metro F/M directo o Uber.', from:'Times Square New York', to:'SpringHill Suites New York Queens 38-39 9th St Long Island City', mode:'transit' },
 ]},
 
-{ id:'d28', label:'28', dateLabel:'Oct 28', title:'Downtown', items:[
+{ id:'d28', label:'28', dateLabel:'Oct 28', title:'Downtown',
+  weather:{ lo:11, hi:18, desc:'Dia junto al agua (ferry, Seaport): puede sentirse mas fresco por la brisa. Conviene llevar chaqueta liviana.' },
+  items:[
   { cat:'transfer', icon:'&#128647;', title:'Metro al Downtown', time:'9:30 AM', sub:'1 trasbordo en West 4th St', dur:'~35 min',
     note:'21 St-Queensbridge a West 4th St (F/M) a Chambers St (A/C), 1 trasbordo.', from:'21 St-Queensbridge Subway Station Long Island City', to:'9/11 Memorial New York', mode:'transit' },
   { cat:'place', icon:'&#128367;', title:'9/11 Memorial', time:'10:15 AM', dur:'~1h', domain:'911memorial.org',
@@ -318,17 +341,17 @@ const days = [
   { cat:'meal', icon:'&#127869;', title:'Almuerzo - zona Oculus / Financial District', time:'1:00 PM', dur:'~1-1.5h', isMeal:true,
     note:'Todas las opciones quedan a 5-10 min caminando de One World Observatory.',
     options:[
-      { emoji:'\ud83c\uddee\ud83c\uddf9', name:'Eataly Downtown', price:'$25-50', bullets:['Mercado italiano gigante con varios restaurantes adentro','Bueno para probar de todo con el grupo'],
+      { emoji:'\ud83c\uddee\ud83c\uddf9', name:'Eataly Downtown', price:'$25-50', cuisine:'Italiana', bullets:['Mercado italiano gigante con varios restaurantes adentro','Bueno para probar de todo con el grupo'],
         google:'4.2', yelp:'1,494 resenas', tripadvisor:'Presente (OpenTable 4.4)', menuUrl:'https://www.eataly.com/us_en/stores/nyc-downtown', mapsUrl:'https://www.google.com/maps/search/?api=1&query=Eataly+Downtown+101+Liberty+St+New+York' },
-      { emoji:'\ud83c\uddfa\ud83c\uddf8', name:'Georges', price:'$15-30', bullets:['Diner clasico americano','Simple y abundante, ideal si alguien quiere algo sencillo'],
+      { emoji:'\ud83c\uddfa\ud83c\uddf8', name:'Georges', price:'$15-30', cuisine:'Americana (diner)', bullets:['Diner clasico americano','Simple y abundante, ideal si alguien quiere algo sencillo'],
         google:'4.3', yelp:'633 resenas', tripadvisor:'758 resenas', menuUrl:'https://www.menupages.com/georges/89-greenwich-st-new-york', mapsUrl:'https://www.google.com/maps/search/?api=1&query=Georges+89+Greenwich+St+New+York' },
-      { emoji:'\ud83c\uddf2\ud83c\uddfd', name:'Toro Loco', price:'$25-45', bullets:['Mexicano con buen ambiente','En la callecita empedrada de Stone Street'],
+      { emoji:'\ud83c\uddf2\ud83c\uddfd', name:'Toro Loco', price:'$25-45', cuisine:'Mexicana', bullets:['Mexicano con buen ambiente','En la callecita empedrada de Stone Street'],
         google:'4.7', yelp:'575 resenas', tripadvisor:'No prominente', menuUrl:'https://toroloconyc.com/mexicanfoodmenu', mapsUrl:'https://www.google.com/maps/search/?api=1&query=Toro+Loco+15+Stone+St+New+York' },
-      { emoji:'\ud83c\uddef\ud83c\uddf5', name:'Goku Kitchen NYC', price:'$15-30', bullets:['Decoracion tematica de Dragon Ball, buena sorpresa para la adolescente','Soup dumplings y ramen'],
+      { emoji:'\ud83c\uddef\ud83c\uddf5', name:'Goku Kitchen NYC', price:'$15-30', cuisine:'Asiatica', bullets:['Decoracion tematica de Dragon Ball, buena sorpresa para la adolescente','Soup dumplings y ramen'],
         google:'4.7', yelp:'118 resenas', tripadvisor:'No listado', menuUrl:'https://pos.chowbus.com/online-ordering/store/Goku-Kitchen-NYC/44252', mapsUrl:'https://www.google.com/maps/search/?api=1&query=Goku+Kitchen+NYC+26+Cedar+St+New+York' },
-      { emoji:'\ud83e\udd69', name:'Harrys', price:'$70-120', bullets:['Parrilla clasica de Wall Street, desde 1972','Beef Wellington en el menu desde su apertura'],
+      { emoji:'\ud83e\udd69', name:'Harrys', price:'$70-120', cuisine:'Americana (steakhouse)', bullets:['Parrilla clasica de Wall Street, desde 1972','Beef Wellington en el menu desde su apertura'],
         google:'4.5', yelp:'931 resenas', tripadvisor:'Presente', menuUrl:'https://www.harrysbarrestaurant.com/new-york-menu', mapsUrl:'https://www.google.com/maps/search/?api=1&query=Harrys+1+Hanover+Square+New+York' },
-      { emoji:'&#9749;', name:'Suited NYC', price:'$10-20', bullets:['Cafe con varios roasters y plato completo de desayuno','Buena parada rapida en FiDi'],
+      { emoji:'&#9749;', name:'Suited NYC', price:'$10-20', cuisine:'Cafe', bullets:['Cafe con varios roasters y plato completo de desayuno','Buena parada rapida en FiDi'],
         google:'4.6', yelp:'211 resenas', tripadvisor:'No listado', menuUrl:'https://suitednyc.com/suited-menu', mapsUrl:'https://www.google.com/maps/search/?api=1&query=Suited+NYC+45+John+St+New+York' },
     ]},
   { cat:'transfer', icon:'&#128694;', title:'Caminata a Wall Street', time:'2:15 PM', sub:'Por Broadway', dur:'~10 min',
@@ -346,22 +369,24 @@ const days = [
   { cat:'meal', icon:'&#127869;', title:'Cena - South Street Seaport', time:'5:30 PM', dur:'~1.5h', isMeal:true,
     note:'Todas las opciones quedan a 5-10 min caminando del muelle del Seaport.',
     options:[
-      { emoji:'\ud83c\uddee\ud83c\uddf9', name:'Osteria Del Porto', price:'$45-70', bullets:['Italiana, buena carta de vinos','Terraza en el Seaport'],
+      { emoji:'\ud83c\uddee\ud83c\uddf9', name:'Osteria Del Porto', price:'$45-70', cuisine:'Italiana', bullets:['Italiana, buena carta de vinos','Terraza en el Seaport'],
         google:'4.4', yelp:'109 resenas (4.4)', tripadvisor:'Presente', menuUrl:'https://osteriadelportonyc.com/', mapsUrl:'https://www.google.com/maps/search/?api=1&query=Osteria+Del+Porto+212+Front+St+New+York' },
-      { emoji:'\ud83c\uddeb\ud83c\uddf7', name:"The Paris Cafe<span class='flag'>2 paginas Yelp</span>", price:'$25-85', bullets:['Lugar historico (1873) que reabrio hace poco, toque frances','Almuerzo mas accesible; la cena es mas elevada de precio'],
+      { emoji:'\ud83c\uddeb\ud83c\uddf7', name:"The Paris Cafe<span class='flag'>2 paginas Yelp</span>", price:'$25-85', cuisine:'Francesa', bullets:['Lugar historico (1873) que reabrio hace poco, toque frances','Almuerzo mas accesible; la cena es mas elevada de precio'],
         google:'-', yelp:'~13 (nueva) / ~325 (legacy)', tripadvisor:'4.3 (358)', menuUrl:'https://pariscafenyc.com/menu', mapsUrl:'https://www.google.com/maps/search/?api=1&query=The+Paris+Cafe+119+South+St+New+York' },
-      { emoji:'\ud83c\uddf2\ud83c\uddfd', name:'Mezcali', price:'$25-45', bullets:['Mexicana, muy buenos cocteles','Ambiente cantina relajado'],
+      { emoji:'\ud83c\uddf2\ud83c\uddfd', name:'Mezcali', price:'$25-45', cuisine:'Mexicana', bullets:['Mexicana, muy buenos cocteles','Ambiente cantina relajado'],
         google:'4.8', yelp:'~231 resenas', tripadvisor:'Listado limitado', menuUrl:'https://www.grubhub.com/restaurant/mezcali-83-maiden-ln-new-york', mapsUrl:'https://www.google.com/maps/search/?api=1&query=Mezcali+83+Maiden+Ln+New+York' },
-      { emoji:'\ud83c\uddf9\ud83c\udded', name:'Hey Thai', price:'$20-30', bullets:['Opcion tailandesa, acogedora y sin pretensiones','Buena para cerrar el dia sin gastar de mas'],
+      { emoji:'\ud83c\uddf9\ud83c\udded', name:'Hey Thai', price:'$20-30', cuisine:'Tailandesa', bullets:['Opcion tailandesa, acogedora y sin pretensiones','Buena para cerrar el dia sin gastar de mas'],
         google:'4.8', yelp:'~362 resenas', tripadvisor:"4.6 (34, Travelers Choice)", menuUrl:'https://custom.order.online/store/hey-thai-23613099', mapsUrl:'https://www.google.com/maps/search/?api=1&query=Hey+Thai+127+John+St+New+York' },
-      { emoji:'&#9749;', name:'Cafe Patoro', price:'$8-18', bullets:['Pan de queso brasileno buenisimo','Buena parada dulce antes de volver al hotel'],
+      { emoji:'&#9749;', name:'Cafe Patoro', price:'$8-18', cuisine:'Cafe', bullets:['Pan de queso brasileno buenisimo','Buena parada dulce antes de volver al hotel'],
         google:'4.6', yelp:'~251 resenas', tripadvisor:"4.7 (24, Travelers Choice)", menuUrl:'https://cafepatoro.com/order', mapsUrl:'https://www.google.com/maps/search/?api=1&query=Cafe+Patoro+223+Front+St+New+York' },
     ]},
   { cat:'transfer', icon:'&#128647;', title:'Regreso al hotel', time:'7:15 PM', sub:'De noche mejor Uber', dur:'35-40 metro / 25-30 Uber',
     note:'De noche mejor Uber que metro con trasbordo.', from:'South Street Seaport New York', to:'SpringHill Suites New York Queens 38-39 9th St Long Island City', mode:'transit' },
 ]},
 
-{ id:'d29', label:'29', dateLabel:'Oct 29', title:'DUMBO y MoMA', items:[
+{ id:'d29', label:'29', dateLabel:'Oct 29', title:'DUMBO y MoMA',
+  weather:{ lo:10, hi:17, desc:'Ultimos dias de octubre, temperaturas mas bajas. Buen dia para capas y algo que cubra las orejas por la manana.' },
+  items:[
   { cat:'transfer', icon:'&#128647;', title:'Tren F a DUMBO', time:'8:55 AM', sub:'Directo, sin trasbordos', dur:'~25 min',
     note:'21 St-Queensbridge a York St, sin trasbordos.', from:'21 St-Queensbridge Subway Station Long Island City', to:'DUMBO Brooklyn New York', mode:'transit' },
   { cat:'place', icon:'&#127752;', title:'DUMBO, Brooklyn', time:'9:20 AM', dur:'~1h', domain:'dumbo.is',
@@ -375,15 +400,15 @@ const days = [
   { cat:'meal', icon:'&#127869;', title:'Almuerzo - zona DUMBO', time:'12:00 PM', dur:'~1-1.5h', isMeal:true,
     note:'Todas las opciones quedan a 5-10 min caminando de Brooklyn Bridge Park.',
     options:[
-      { emoji:'\ud83c\uddfa\ud83c\uddf8', name:'Westville Dumbo', price:'$25-35', bullets:['La opcion mas segura, americana fresca y bien valorada'],
+      { emoji:'\ud83c\uddfa\ud83c\uddf8', name:'Westville Dumbo', price:'$25-35', cuisine:'Americana', bullets:['La opcion mas segura, americana fresca y bien valorada'],
         google:'4.7', yelp:'4.6', tripadvisor:'4.5', menuUrl:'https://westville.com/', mapsUrl:'https://www.google.com/maps/search/?api=1&query=Westville+Dumbo+81+Washington+St+Brooklyn' },
-      { emoji:'&#127757;', name:'Time Out Market', price:'$20-40', bullets:['Mercado de comida con varios puestos','Util si el grupo no se pone de acuerdo en que comer'],
+      { emoji:'&#127757;', name:'Time Out Market', price:'$20-40', cuisine:'Variado (food hall)', bullets:['Mercado de comida con varios puestos','Util si el grupo no se pone de acuerdo en que comer'],
         google:'4.5', yelp:'~707 resenas', tripadvisor:'4.3 (~439)', menuUrl:'https://www.timeout.com/time-out-market-new-york/restaurants/time-out-market-new-york', mapsUrl:'https://www.google.com/maps/search/?api=1&query=Time+Out+Market+New+York+55+Water+St+Brooklyn' },
-      { emoji:'\ud83c\uddf2\ud83c\uddfd', name:"Titan<span class='flag'>recien abierto</span>", price:'$40-65', bullets:['Mexicano recien abierto (junio 2026), sin resenas todavia','Cantina del norte de Mexico en un edificio historico de 1824'],
+      { emoji:'\ud83c\uddf2\ud83c\uddfd', name:"Titan<span class='flag'>recien abierto</span>", price:'$40-65', cuisine:'Mexicana', bullets:['Mexicano recien abierto (junio 2026), sin resenas todavia','Cantina del norte de Mexico en un edificio historico de 1824'],
         google:'-', yelp:'Sin resenas aun', tripadvisor:'No listado', menuUrl:'https://titan-nyc.com/menu', mapsUrl:'https://www.google.com/maps/search/?api=1&query=Titan+5+Front+St+Brooklyn' },
-      { emoji:'&#127836;', name:'Lucky Rabbit Noodles', price:'$18-30', bullets:['Fideos y dumplings ricos, buen precio'],
+      { emoji:'&#127836;', name:'Lucky Rabbit Noodles', price:'$18-30', cuisine:'Asiatica (fideos)', bullets:['Fideos y dumplings ricos, buen precio'],
         google:'4.6', yelp:'154 resenas', tripadvisor:'No listado', menuUrl:'https://www.doordash.com/en/store/lucky-rabbit-noodles-brooklyn-2692082/', mapsUrl:'https://www.google.com/maps/search/?api=1&query=Lucky+Rabbit+Noodles+151+Front+St+Brooklyn' },
-      { emoji:'&#9749;', name:'% Arabica', price:'$7-15', bullets:['Cafe minimalista con vista al puente de Brooklyn','Muy fotogenico, algo turistico'],
+      { emoji:'&#9749;', name:'% Arabica', price:'$7-15', cuisine:'Cafe', bullets:['Cafe minimalista con vista al puente de Brooklyn','Muy fotogenico, algo turistico'],
         google:'4.4', yelp:'~356 resenas', tripadvisor:'4.6 (14)', menuUrl:'https://order.online/en-CA/store/arabica-fulton-st-25930325', mapsUrl:'https://www.google.com/maps/search/?api=1&query=Arabica+Coffee+20+Old+Fulton+St+Brooklyn' },
     ]},
   { cat:'transfer', icon:'&#128647;', title:'Tren F a MoMA / Rockefeller', time:'1:45 PM', sub:'Directo, sin trasbordos', dur:'~25 min',
@@ -394,24 +419,26 @@ const days = [
   { cat:'meal', icon:'&#127869;', title:"Cena - zona MoMA / Hells Kitchen", time:'5:30 PM', dur:'~1.5h', isMeal:true,
     note:'Todas las opciones quedan a 10-15 min caminando de MoMA.',
     options:[
-      { emoji:'\ud83c\uddfa\ud83c\uddf8', name:'Moms Kitchen and Bar', price:'$25-35', bullets:['Americana, informal, buen ambiente'],
+      { emoji:'\ud83c\uddfa\ud83c\uddf8', name:'Moms Kitchen and Bar', price:'$25-35', cuisine:'Americana', bullets:['Americana, informal, buen ambiente'],
         google:'4.5', yelp:'-', tripadvisor:'4.4 (245-249)', menuUrl:'https://www.eatatmomsnyc.com/', mapsUrl:'https://www.google.com/maps/search/?api=1&query=Moms+Kitchen+and+Bar+701+9th+Ave+New+York' },
-      { emoji:'&#128054;', name:'Barking Dog', price:'$25-55', bullets:['Parecida a Moms Kitchen, con patio agradable'],
+      { emoji:'&#128054;', name:'Barking Dog', price:'$25-55', cuisine:'Americana', bullets:['Parecida a Moms Kitchen, con patio agradable'],
         google:'4.6', yelp:'155 resenas', tripadvisor:'~44-52 (mixto)', menuUrl:'https://barkingdognyc.com/new-york-hells-kitchen-barking-dog-food', mapsUrl:'https://www.google.com/maps/search/?api=1&query=Barking+Dog+Hells+Kitchen+329+W+49th+St+New+York' },
-      { emoji:'\ud83c\uddf2\ud83c\uddfd', name:'Mamasita', price:'$30-40', bullets:['Mexicana, mas de 25 sabores de margarita'],
+      { emoji:'\ud83c\uddf2\ud83c\uddfd', name:'Mamasita', price:'$30-40', cuisine:'Mexicana', bullets:['Mexicana, mas de 25 sabores de margarita'],
         google:'4.7', yelp:'1,952 resenas', tripadvisor:'4.3 (248)', menuUrl:'https://mamasitanyc.com/menu', mapsUrl:'https://www.google.com/maps/search/?api=1&query=Mamasita+Bar+Grill+818+10th+Ave+New+York' },
-      { emoji:'\ud83c\udde8\ud83c\uddf3', name:'Mala Project', price:'$30-50', bullets:['Comida Sichuan tipo dry pot armado por uno mismo','Reconocida en la guia Michelin (Bib Gourmand)'],
+      { emoji:'\ud83c\udde8\ud83c\uddf3', name:'Mala Project', price:'$30-50', cuisine:'China (Sichuan)', bullets:['Comida Sichuan tipo dry pot armado por uno mismo','Reconocida en la guia Michelin (Bib Gourmand)'],
         google:'4.5', yelp:'4.0 (669)', tripadvisor:'Sin dato especifico', menuUrl:'https://www.malaproject.com/menu/dinner', mapsUrl:'https://www.google.com/maps/search/?api=1&query=Mala+Project+Midtown+East+245+E+53rd+St+New+York' },
-      { emoji:'\ud83c\uddec\ud83c\uddf7', name:"Limani<span class='flag'>no confundir con sede Roslyn</span>", price:'$40-130', bullets:['Griego de mariscos, elegante para cerrar el viaje','Mas costoso: el pescado se cobra por libra'],
+      { emoji:'\ud83c\uddec\ud83c\uddf7', name:"Limani<span class='flag'>no confundir con sede Roslyn</span>", price:'$40-130', cuisine:'Griega', bullets:['Griego de mariscos, elegante para cerrar el viaje','Mas costoso: el pescado se cobra por libra'],
         google:'4.3', yelp:'~606 (OpenTable ~3,886)', tripadvisor:'~458', menuUrl:'https://limani.com/new-york/menu', mapsUrl:'https://www.google.com/maps/search/?api=1&query=Limani+45+Rockefeller+Plaza+New+York' },
-      { emoji:'&#9749;', name:'WatchHouse 5th Ave', price:'$8-20', bullets:['Cafe especializado, primera sede en EE. UU.','Buena parada de cierre antes del ultimo dia'],
+      { emoji:'&#9749;', name:'WatchHouse 5th Ave', price:'$8-20', cuisine:'Cafe', bullets:['Cafe especializado, primera sede en EE. UU.','Buena parada de cierre antes del ultimo dia'],
         google:'4.5', yelp:'149 resenas', tripadvisor:'4.8 (solo 4)', menuUrl:'https://www.watchhouse.com/blogs/locations/watchhouse-5th-ave', mapsUrl:'https://www.google.com/maps/search/?api=1&query=WatchHouse+5th+Ave+660+5th+Ave+New+York' },
     ]},
   { cat:'transfer', icon:'&#128647;', title:'Regreso al hotel', time:'7:15 PM', sub:'Metro F/M directo', dur:'~15-20 min',
     note:'Metro F/M directo.', from:'Rockefeller Center New York', to:'SpringHill Suites New York Queens 38-39 9th St Long Island City', mode:'transit' },
 ]},
 
-{ id:'d30', label:'30', dateLabel:'Oct 30', title:'Salida a Miami', items:[
+{ id:'d30', label:'30', dateLabel:'Oct 30', title:'Salida a Miami',
+  weather:{ lo:9, hi:15, desc:'Salida temprano en la manana, la parte mas fria del dia. Abrigo a la mano para el trayecto al aeropuerto.' },
+  items:[
   { cat:'hotel', icon:'&#129523;', title:'Despertar y maletas', time:'5:30 AM', text:'Dejar el equipaje listo la noche anterior para salir rapido.' },
   { cat:'transfer', icon:'&#128661;', title:'Uber a LGA', time:'6:00 AM', sub:'Salida con margen', dur:'~15-20 min',
     note:'Salida a las 6:00 AM para llegar con margen antes del vuelo.', from:'SpringHill Suites New York Queens 38-39 9th St Long Island City', to:'LaGuardia Airport New York', mode:'driving',
@@ -429,14 +456,14 @@ days.forEach((day, idx)=>{
   const tab = document.createElement('button');
   tab.className = 'tab' + (idx===0?' active':'');
   tab.dataset.target = day.id;
-  tab.innerHTML = "<div class='tab-dot'>"+day.label+"</div><div class='tab-label'>"+day.dateLabel+"</div>";
+  tab.innerHTML = "<div class='tab-dot'>"+day.label+"</div><div class='tab-label'>Oct</div>";
   tab.addEventListener('click', ()=> selectDay(day.id));
   tabbar.appendChild(tab);
 
   const side = document.createElement('button');
   side.className = 'side-tab' + (idx===0?' active':'');
   side.dataset.target = day.id;
-  side.innerHTML = "<div class='side-dot'>"+day.label+"</div><div class='side-txt'><div class='side-label'>"+day.dateLabel+"</div><div class='side-title'>"+day.title+"</div></div>";
+  side.innerHTML = "<div class='side-dot'><span class='num'>"+day.label+"</span><span class='mon'>OCT</span></div><div class='side-txt'><div class='side-title'>"+day.title+"</div></div>";
   side.addEventListener('click', ()=> selectDay(day.id));
   sidenavList.appendChild(side);
 
@@ -444,8 +471,23 @@ days.forEach((day, idx)=>{
   view.className = 'day-view' + (idx===0?' active':'');
   view.id = day.id;
 
-  let html = "<div class='kicker'>"+day.dateLabel+"</div><div class='day-title'>"+day.title+"</div>"
-    + "<div class='filters'>"
+  let html = "<div class='kicker'>"+day.dateLabel+"</div><div class='day-title'>"+day.title+"</div>";
+
+  if(day.weather){
+    html += "<div class='weather-card'>"
+      + "<div class='weather-head' onclick=\"this.parentElement.classList.toggle('open')\">"
+      + "<div class='logo'>&#127777;&#65039;</div>"
+      + "<div class='title'>Clima</div>"
+      + "<div class='side'><div class='weather-temp'>"+day.weather.lo+"&deg;&ndash;"+day.weather.hi+"&deg;</div>"
+      + "<svg class='weather-chev' viewBox='0 0 24 24' fill='none'><path d='M6 9l6 6 6-6' stroke='currentColor' stroke-width='2' stroke-linecap='round'/></svg></div>"
+      + "</div>"
+      + "<div class='weather-body'><div class='weather-body-inner'>"
+      + day.weather.desc
+      + "<div class='actions'><a href='#' target='_blank' rel='noopener'>Ver en AccuWeather</a></div>"
+      + "</div></div></div>";
+  }
+
+  html += "<div class='filters'>"
     + "<button class='chip active' data-cat='hotel' style='--c:var(--hotel)'><span class='roundel'>H</span>Hotel</button>"
     + "<button class='chip active' data-cat='transfer' style='--c:var(--transfer)'><span class='roundel'>T</span>Traslados</button>"
     + "<button class='chip active' data-cat='place' style='--c:var(--place)'><span class='roundel'>L</span>Lugares</button>"

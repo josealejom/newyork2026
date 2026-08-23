@@ -1,6 +1,6 @@
 {
-  "name": "New York 2026 - Viaje Familiar",
-  "short_name": "New York 2026",
+  "name": "Nueva York - Viaje Familiar",
+  "short_name": "Nueva York",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
