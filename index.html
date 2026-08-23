@@ -177,6 +177,7 @@
 <script>
 function gmapsSearch(q){ return "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(q); }
 function gmapsDirections(from,to,mode){ return "https://www.google.com/maps/dir/?api=1&origin="+encodeURIComponent(from)+"&destination="+encodeURIComponent(to)+"&travelmode="+mode; }
+function uberUrl(lat,lng,nickname,address){ return "https://m.uber.com/ul/?action=setPickup&pickup=my_location&dropoff[latitude]="+lat+"&dropoff[longitude]="+lng+"&dropoff[nickname]="+encodeURIComponent(nickname)+"&dropoff[formatted_address]="+encodeURIComponent(address); }
 function domainFromUrl(url){ try{ return new URL(url).hostname.replace(/^www\./,''); }catch(e){ return ''; } }
 
 function logoWithFavicon(domain, fallbackEmoji){
@@ -221,7 +222,8 @@ const days = [
   { cat:'transfer', icon:'&#9992;', title:'Llegada a LGA', time:'5:23 PM', sub:'Vuelo domestico desde MIA (AA552)',
     note:'Sin tramites de inmigracion adicionales, se sale directo hacia la zona de transporte terrestre.', from:'LaGuardia Airport New York', to:'LaGuardia Airport New York', mode:'driving' },
   { cat:'transfer', icon:'&#128661;', title:'Uber al hotel', time:'5:45 PM', sub:'Aprox 9 km sin trafico', dur:'~15-20 min',
-    note:'Uber directo desde el aeropuerto hasta el hotel en Long Island City.', from:'LaGuardia Airport New York', to:'SpringHill Suites New York Queens 38-39 9th St Long Island City', mode:'driving' },
+    note:'Uber directo desde el aeropuerto hasta el hotel en Long Island City.', from:'LaGuardia Airport New York', to:'SpringHill Suites New York Queens 38-39 9th St Long Island City', mode:'driving',
+    uber:{ lat:40.75802, lng:-73.94405, nickname:'SpringHill Suites LIC', address:'38-39 9th St, Long Island City, NY 11101' } },
   { cat:'hotel', icon:'&#127971;', title:'Check-in SpringHill Suites', time:'6:00 PM',
     text:'Cuatro noches en la zona de Ravenswood/Queensbridge, Long Island City. Desayuno caliente incluido y shuttle gratis del hotel hasta las 10:45pm.' },
   { cat:'meal', icon:'&#127869;', title:'Cena - zona del hotel (LIC)', time:'8:00 PM', dur:'~1-1.5h', isMeal:true,
@@ -412,7 +414,8 @@ const days = [
 { id:'d30', label:'30', dateLabel:'Oct 30', title:'Salida a Miami', items:[
   { cat:'hotel', icon:'&#129523;', title:'Despertar y maletas', time:'5:30 AM', text:'Dejar el equipaje listo la noche anterior para salir rapido.' },
   { cat:'transfer', icon:'&#128661;', title:'Uber a LGA', time:'6:00 AM', sub:'Salida con margen', dur:'~15-20 min',
-    note:'Salida a las 6:00 AM para llegar con margen antes del vuelo.', from:'SpringHill Suites New York Queens 38-39 9th St Long Island City', to:'LaGuardia Airport New York', mode:'driving' },
+    note:'Salida a las 6:00 AM para llegar con margen antes del vuelo.', from:'SpringHill Suites New York Queens 38-39 9th St Long Island City', to:'LaGuardia Airport New York', mode:'driving',
+    uber:{ lat:40.7769, lng:-73.8740, nickname:'LaGuardia Airport (LGA)', address:'LaGuardia Airport, Queens, NY 11371' } },
   { cat:'transfer', icon:'&#9992;', title:'Vuelo AA970 LGA-MIA', time:'7:59 AM', sub:'Inicio etapa Miami-Orlando',
     note:'Primer vuelo del dia, hacia Miami.', from:'LaGuardia Airport New York', to:'LaGuardia Airport New York', mode:'driving' },
 ]},
@@ -460,7 +463,11 @@ days.forEach((day, idx)=>{
       logo = logoEmoji(it.icon);
     } else if(it.cat === 'transfer'){
       var url = gmapsDirections(it.from, it.to, it.mode);
-      bodyHtml = "<div style='margin-bottom:10px;'>"+it.note+"</div><div class='actions'><a href='"+url+"' target='_blank' rel='noopener'>Como llegar en Google Maps</a></div>";
+      bodyHtml = "<div style='margin-bottom:10px;'>"+it.note+"</div><div class='actions'>";
+      if(it.uber){
+        bodyHtml += "<a href='"+uberUrl(it.uber.lat, it.uber.lng, it.uber.nickname, it.uber.address)+"' target='_blank' rel='noopener'>Pedir Uber</a>";
+      }
+      bodyHtml += "<a href='"+url+"' target='_blank' rel='noopener'>Como llegar en Google Maps</a></div>";
       metaLine = it.time + (it.sub ? (" &middot; "+it.sub) : '');
       logo = logoEmoji(it.icon);
     } else if(it.cat === 'place'){
